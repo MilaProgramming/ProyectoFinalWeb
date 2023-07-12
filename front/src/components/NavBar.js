@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSeedling, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faHome, faBoxOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import "../styles/navBar.css"
+import { useState } from 'react';
 
-export default function NavBar() {
-  return (
-        <nav className="navbar">
+
+class NavBar extends Component {
+  
+  render() {
+
+    return <nav className="navbar">
       <div className="navbar-left">
         <FontAwesomeIcon icon={faSeedling} className="flower-icon"/>
       </div>
@@ -40,12 +44,14 @@ export default function NavBar() {
             <div className="user-icon-container">
             <FontAwesomeIcon icon={faUser} className="user-icon" />
             <div className="user-dropdown">
-                {/* Content for user dropdown */}
+       
             </div>
             </div>
         </div>
 
     </nav>
 
-  )
+  }
 }
+
+export default NavBar; 
