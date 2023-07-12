@@ -42,7 +42,7 @@ class NavBar extends Component {
 
         <div className='navbar-right'>
             <div className="user-icon-container">
-            <FontAwesomeIcon icon={faUser} className="user-icon" />
+
             <div className="user-dropdown">
        
             </div>

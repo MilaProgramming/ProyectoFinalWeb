@@ -15,7 +15,7 @@ export default function HomePage() {
                 <p className="text">
                     Donde la belleza natural y la fragancia se unen en armonía. Nuestro objetivo es brindarle una experiencia encantadora y cautivadora al adentrarse en el mundo de las flores.
                 </p>
-                <button className="buy-button">Comprar</button>
+                <button className="buy-button"><a href='\productos'>Comprar</a></button>
      
         </div>
 
