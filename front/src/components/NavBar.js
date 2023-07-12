@@ -15,19 +15,19 @@ export default function NavBar() {
 
         <ul className="navbar-links">
           <li>
-            <a href="#">
+            <a href="\homePage">
               <FontAwesomeIcon icon={faHome} className="link-icon" />
               <span>Inicio</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="\productos">
               <FontAwesomeIcon icon={faBoxOpen} className="link-icon" />
               <span>Productos</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="\info">
               <FontAwesomeIcon icon={faInfoCircle} className="link-icon" />
               <span>Información</span>
             </a>
