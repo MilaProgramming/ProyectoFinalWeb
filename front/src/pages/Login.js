@@ -9,7 +9,8 @@ export default function Login() {
       <div className="form-box">
         <div className="form-value">
           <form action="" id='formulario'>
-            <h2>Login</h2>
+            
+            <h2>Bienvenido</h2>
 
 
             <div className="inputbox">
@@ -24,7 +25,7 @@ export default function Login() {
               <label htmlFor="">Contraseña</label>
             </div>
            
-            <button>Log in</button>
+            <button>Ingresar</button>
 
 
           </form>
