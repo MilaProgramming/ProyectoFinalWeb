@@ -21,7 +21,7 @@ section{
 
 /*FORMULARIO DE INGRESO DE DATOS*/
 
-.form-box{
+.form-box1{
     position: relative;
     width: 400px;
     height: 430px;
@@ -45,14 +45,14 @@ h2{
 
 /* INGRESO DEL NOMBRE */
 
-.inputbox {
+.inputbox1 {
     position: relative;
     margin: 30px 0;
     width: 310px;
     border-bottom: 2px solid #000;
   }
   
-.inputbox label, .inputboxsecondname label {
+.inputbox1 label, .inputboxsecondname1 label, .inputboxCI1 label {
     position: absolute;
     top: 50%;
     left: 5px;
@@ -63,7 +63,7 @@ h2{
     transition: 0.5s;
 }
   
-.inputbox input, .inputboxsecondname input {
+.inputbox1 input, .inputboxsecondname1 input, .inputboxCI1 input {
     width: 100%;
     height: 50px;
     background: transparent;
@@ -74,7 +74,7 @@ h2{
     color: #000;
 }
   
-.inputbox ion-icon, .inputboxsecondname ion-icon {
+.inputbox1 ion-icon, .inputboxsecondname1 ion-icon , .inputboxCI1 ion-icon{
     position: absolute;
     right: 8px;
     color: #000;
@@ -83,10 +83,12 @@ h2{
     transform: translateY(-50%);
 }
   
-.inputbox input:focus ~ label,
-.inputbox input:valid ~ label,
-.inputboxsecondname input:focus ~ label,
-.inputboxsecondname input:valid ~ label {
+.inputbox1 input:focus ~ label,
+.inputbox1 input:valid ~ label,
+.inputboxsecondname1 input:focus ~ label,
+.inputboxsecondname1 input:valid ~ label,
+.inputboxCI1 input:focus ~ label,
+.inputboxCI1 input:valid ~ label  {
     top: -0.3rem;
     transform: translateY(-50%);
 }
@@ -94,7 +96,7 @@ h2{
 
 /*CSS PARA EL IMPUT BOX DEL APELLIDO*/
 
-.inputboxsecondname {
+.inputboxsecondname1 {
     position: relative;
     margin: 30px 0;
     width: 310px;
@@ -102,8 +104,16 @@ h2{
     bottom: 85px;
     margin-left: 120%;
   }
-  
 
+  /*CSS PARA EL IMPUT BOX DEL CI*/
+
+.inputboxCI1 {
+  position: relative;
+  margin: 30px 0;
+  width: 310px;
+  border-bottom: 2px solid #000;
+  bottom: 85px;
+}
 
 button{
     width: 100%;
@@ -122,60 +132,6 @@ button{
 
 button span{
     margin: 0.5rem;
-}
-
-.register{
-    font-size: .9em;
-    color: #000;
-    text-align: center;
-    margin: 25px 0 10px;
-}
-.register p a{
-    text-decoration: none;
-    color: #000;
-    font-weight: 600;
-}
-.register p a:hover{
-    text-decoration: underline;
-}
-
-.inicio{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 3rem;
-    align-items: center;
-    margin-left: 40%;
-}
-
-.avance p {
-    margin: 1rem;
-}
-
-.avance button{
-    width: 10rem;
-    height: 40px;
-    border-radius: 40px;
-    background: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    margin: 0.5rem;
-    
-}
-
-.avance a{
-    text-decoration: none;
-    color: palevioletred;
-}
-
-.logo{
-    width: 20rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .selectbox {

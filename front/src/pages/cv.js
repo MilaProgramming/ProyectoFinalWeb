@@ -1,36 +1,42 @@
 import React from 'react'
 import "../styles/cv.css"
 
-export default function Login() {
+export default function CV() {
 
 
     return (
-        <section className='login'>
-            <div className="form-box">
-                <div className="form-value">
-                    <form action="" id='formulario'>
+        <section className='cv'>
+            <div className="form-box1">
+                <div className="form-value1">
+                    <form action="" id='formulario1'>
 
                         <h2>Datos Personales</h2>
 
-                        <div className="inputbox">
+                        <div className="inputbox1">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                             <input type="text" required />
                             <label htmlFor="">Nombre</label>
                         </div>
 
-                        <div className="inputboxsecondname">
+                        <div className="inputbox1">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                            <input type="text" required />
+                            <label htmlFor="">Nacionalidad</label>
+                        </div>
+                        
+                        <div className="inputboxsecondname1">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                             <input type="text" required />
                             <label htmlFor="">Apellido</label>
                         </div>
 
-                        <div className="inputbox">
+                        <div className="inputboxCI1">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                             <input type="text" required />
                             <label htmlFor="">CI</label>
                         </div>
 
-                        <div className="selectbox">
+                        <div className="selectbox1">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                             <label htmlFor="sexo">Sexo</label>
                             <select id="sexo" required>
@@ -40,7 +46,7 @@ export default function Login() {
                             </select>
                         </div>
 
-                        <div className="selectbox">
+                        <div className="selectbox1">
                             <ion-icon name="lock-closed-outline"></ion-icon>
                             <label htmlFor="civilstate">Estado Civil</label>
                             <select id="civilstate" required>
@@ -54,10 +60,6 @@ export default function Login() {
                         <button>Editar</button>
 
                     </form>
-
-                    <div id='login-button'>
-
-                    </div>
 
                 </div>
             </div>
