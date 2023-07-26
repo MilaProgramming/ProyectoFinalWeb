@@ -1,4 +1,4 @@
-# PROYECTO FINAL WEB EAVANZADA
+# PROYECTO FINAL WEB AVANZADA
 Repositorio Achig Steven
 
 # Sistema De Contratación de Docentes (RH)
