@@ -1,0 +1,114 @@
+/* Inicio.css */
+
+/* Estilos para el contenedor principal */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* Fondo blanco */
+  }
+  
+  /* Estilos para el formulario */
+  form {
+    display: grid;
+    grid-row-gap: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #444; /* Texto oscuro */
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #217f33; /* Verde oscuro */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #1c6c2b; /* Verde oscuro más oscuro al pasar el mouse */
+  }
+  /* Navbar.css */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #1c6c2b; /* Verde oscuro */
+    color: #fff;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logo-text {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links li {
+    margin-right: 20px;
+  }
+  
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #156523; /* Verde oscuro más oscuro al pasar el mouse */
+  }
+/* Navbar.css */
+
+/* Añadimos una clase al navbar para hacerlo fijo */
+.fixed-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .navbar {
+    /* Resto de estilos... */
+  }
+    
+  
+  
