@@ -86,7 +86,8 @@ const getUser= async (req, res) => {
   
       if (queryResult.rows.length === 1) {
         // Credenciales válidas
-        res.status(200).json({ message: 'Inicio de sesión exitoso' });
+        res.json(queryResult.rows[0]);
+        //res.status(200).json({ message: 'Inicio de sesión exitoso' });
       } else {
         // Credenciales inválidas
         res.status(401).json({ message: 'Usuario o contraseña incorrectos' });

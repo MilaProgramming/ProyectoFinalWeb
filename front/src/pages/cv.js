@@ -1,5 +1,5 @@
 import React from 'react'
-import "../styles/cv.css"
+//import "../styles/cv.css"
 
 export default function Login() {
 

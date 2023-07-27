@@ -11,7 +11,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { setUserEmail } = useContext(AuthContext);
+  const { setUserEmail,setUserName,setUserApellido } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,8 +33,10 @@ export default function Login() {
         // Inicio de sesión exitoso
         // Aquí puedes redirigir al usuario a la página de Inicio o realizar otras acciones.
         setUserEmail(email);
-        navigate('/Inicio');
-        console.log("se recupero exitosamente")
+        setUserName(data.nombre);
+        setUserApellido(data.apellido);
+        navigate('/Personal');
+        
        // console.log(data.message);
       } else {
         // Credenciales inválidas
