@@ -1,7 +1,7 @@
 import React, { useState,useContext } from 'react';
 import { useNavigate} from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-import "../styles/login.css"
+import "../styles/Login.css"
 
 
 
@@ -49,7 +49,7 @@ export default function Login() {
 
 
   return (
-    <section className='login'>
+    <section className='login' id='loginP'>
       <div className="form-box">
         <div className="form-value">
           <form onSubmit={handleLogin} id='formulario'>
