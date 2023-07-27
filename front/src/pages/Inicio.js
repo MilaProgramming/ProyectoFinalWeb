@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Typography, Container, TextField, Button } from '@mui/material';
-import Navbar from '../pages/NavBar';
+import Navbar from '../components/NavBar';
 
 const CurriculumVitae = () => {
   const [idDocente, setIdDocente] = useState('');

@@ -1,6 +1,6 @@
 import React, {useContext } from 'react';
 import { Typography, Container, Box,Grid,Card, CardContent, Avatar } from '@mui/material';
-import Navbar from './NavBar';
+import Navbar from '../components/NavBar';
 import { AuthContext } from '../contexts/AuthContext';
 
 const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
