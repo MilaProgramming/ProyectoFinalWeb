@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login';
+
 import Curriculum from './pages/cv';
 import PersonalDataDisplay from './pages/PersonalDataDisplay';
 import Inicio from './components/Inicio';
@@ -12,11 +13,8 @@ const router = createBrowserRouter([
   { path: '/Personal', element: <PersonalDataDisplay/> },
   
 ]);
-function App()  {
-  return (<AuthProvider><RouterProvider router = {router} />
+function App()  
+ 
+{ return (<AuthProvider><RouterProvider router = {router} />
 </AuthProvider> );
 }
-export default App;
-
-
-
