@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSeedling, faUser } from '@fortawesome/free-solid-svg-icons';
+import {faSeedling} from '@fortawesome/free-solid-svg-icons';
 import { faHome, faBoxOpen, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import "../styles/navBar.css"
 

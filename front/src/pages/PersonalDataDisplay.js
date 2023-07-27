@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Typography, Container, TextField, Button, Box,Grid,Card, CardMedia, CardContent, CardActions,Avatar } from '@mui/material';
-import styled from '@emotion/styled';
+import React, {useContext } from 'react';
+import { Typography, Container, Box,Grid,Card, CardContent, Avatar } from '@mui/material';
 import Navbar from './NavBar';
 import { AuthContext } from '../contexts/AuthContext';
 
 const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
-  const { userEmail, setUserEmail,setUserName,SetUserApellido,userName,userApellido } = useContext(AuthContext);
+  const { userEmail, userName,userApellido } = useContext(AuthContext);
   
 
   return (
