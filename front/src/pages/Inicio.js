@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import UserProfileCard from '../components/UserProfileCard';
-
+import InformacionAcademica from '../components/InformacionAcademica';
 const user = {
   name: 'Juana Banana',
   email: 'johndoe@example.com',
@@ -21,6 +21,7 @@ const user = {
 };
 
 const countries = ['USA', 'Canada', 'UK', 'Australia'];
+const tipo_doc = ['Cédula','Pasaporte'];
 const roles = ['admin', 'user', 'guest'];
 
 
@@ -76,7 +77,7 @@ const CurriculumVitae = () => {
     <div>
       <Navbar />
 
-      <Box sx={{ bgcolor: '#C8D6C9', width: 1040, marginTop:'8rem', marginLeft:'8%' }}>
+      <Box sx={{ bgcolor: '#C8D6C9', width: 1300, marginTop:'8rem', marginLeft:'15%' }}>
       <AppBar position="static">
         <Tabs
           value={value}
@@ -106,10 +107,10 @@ const CurriculumVitae = () => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <UserProfileCard user={user} countries={countries} roles={roles} />
+          <UserProfileCard user={user} countries={countries} roles={roles} tipo_doc={tipo_doc} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <InformacionAcademica/>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
