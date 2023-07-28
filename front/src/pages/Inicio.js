@@ -56,18 +56,13 @@ const CurriculumVitae = () => {
     setValue(index);
   };
 
-  const styles = theme => ({
-    indicator: {
-      backgroundColor: 'black',
-    },
-  })
 
   return (
 
     <div>
       <Navbar />
 
-      <Box sx={{ bgcolor: '#C8D6C9', width: 1000, marginTop:'8rem', marginLeft:'10%' }}>
+      <Box sx={{ bgcolor: '#C8D6C9', width: 1040, marginTop:'8rem', marginLeft:'8%' }}>
       <AppBar position="static">
         <Tabs
           value={value}
