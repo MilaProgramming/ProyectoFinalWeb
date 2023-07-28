@@ -1,5 +1,5 @@
 # PROYECTO FINAL WEB AVANZADA
-Repositorio Achig Steven
+Repositorio Achig Steven Andrango Christian Calapaqui Genesis Rivera Camila Sañay Santiago Paguay Alex
 
 # Sistema De Contratación de Docentes (RH)
 Sitema de contrataciones y actualización de datos de docentes de la Universidad de las Fuerzas Armadas ESPE
