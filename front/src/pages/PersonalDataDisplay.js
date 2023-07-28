@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useContext } from 'react';
 import { Typography, Container, TextField, Button, Box,Grid,Card, CardMedia, CardContent, CardActions,Avatar } from '@mui/material';
 import styled from '@emotion/styled';
-import Navbar from './NavBar';
+//import Navbar from './NavBar';
 import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -25,7 +25,7 @@ const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
   return (
     <Box sx={{backgroundColor:"#bdecb6"}}>
       
-      <Navbar></Navbar>
+      {/*<Navbar></Navbar>*/}
       
       <Container sx={{backgroundColor:"white"}}>
         <Box sx={{textAlign:"center"}}>
