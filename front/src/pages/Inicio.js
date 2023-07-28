@@ -19,8 +19,8 @@ const CurriculumVitae = () => {
         <Typography variant="h2" align="center" gutterBottom>
           Curriculum Vitae
         </Typography>
-        <form style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <form >
+          <div >
             <label htmlFor="idDocente">ID Docente:</label>
             <TextField
               type="text"
@@ -29,7 +29,7 @@ const CurriculumVitae = () => {
               onChange={(e) => setIdDocente(e.target.value)}
             />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div >
             <label htmlFor="tipoDocumento">Tipo de documento:</label>
             <TextField
               type="text"
@@ -38,7 +38,7 @@ const CurriculumVitae = () => {
               onChange={(e) => setTipoDocumento(e.target.value)}
             />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div >
             <label htmlFor="numeroDocumento">Número de documento:</label>
             <TextField
               type="text"
