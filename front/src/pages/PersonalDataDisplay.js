@@ -1,11 +1,26 @@
-import React, {useContext } from 'react';
-import { Typography, Container, Box,Grid,Card, CardContent, Avatar } from '@mui/material';
-import Navbar from '../components/NavBar';
+import React, { useState, useLayoutEffect, useContext } from 'react';
+import { Typography, Container, TextField, Button, Box,Grid,Card, CardMedia, CardContent, CardActions,Avatar } from '@mui/material';
+import styled from '@emotion/styled';
+import Navbar from './NavBar';
+import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
 
+
+
 const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
-  const { userEmail, userName,userApellido } = useContext(AuthContext);
-  
+  const { userEmail, setUserEmail,setUserName,SetUserApellido,userName,userApellido } = useContext(AuthContext);
+  const [docentes, setDocentes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useLayoutEffect(()=> {
+    const id_docente=userEmail;
+    console.log(id_docente);
+    axios.get(`http://localhost:8000/docente/${id_docente}`).then((response) => {
+      setDocentes(response.data);
+      console.log(response.data);
+      setIsLoading(false);
+    });
+    
+  }, []);
 
   return (
     <Box sx={{backgroundColor:"#bdecb6"}}>
@@ -50,17 +65,23 @@ const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
       justifyContent="space-between">
         <Card sx={{margin:2, width:"100%"}} width="100%">
           <CardContent>
+          {isLoading ? (
+        <div>Cargando datos...</div>
+      ) : (
+        <div>
           <Typography variant='h7' fontWeight="bold">Id:</Typography>
-            <Typography sx={{border:1}}>{userEmail}</Typography>
+            <Typography>{docentes[0].id_docente}</Typography>
             <Typography variant='h7' fontWeight="bold">Nombre:</Typography>
-            <Typography>{userName}</Typography>
+            <Typography>{docentes[0].nombre}</Typography>
             <Typography variant='h7' fontWeight="bold">Apellido</Typography>
-            <Typography>{userApellido}</Typography>
+            <Typography>{docentes[0].apellido}</Typography>
             <Typography variant='h7' fontWeight="bold">Tipo de documento:</Typography>
-            <Typography>Cedula</Typography>
+            <Typography>{docentes[0].tipo_documento}</Typography>
             <Typography variant='h7' fontWeight="bold">Número de documento:</Typography>
-            <Typography>{userEmail}</Typography>
-            
+            <Typography>{docentes[0].numero_documento}</Typography>
+        </div>
+      )}
+
           </CardContent>
         </Card>
       
@@ -77,16 +98,23 @@ const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
       justifyContent="space-between">
         <Card sx={{margin:2, width:"100%"}} width="100%">
           <CardContent>
+
+          {isLoading ? (
+        <div>Cargando datos...</div>
+      ) : (
+        <div>
           <Typography variant='h7' fontWeight="bold">Ciudad de Residencia:</Typography>
-            <Typography>{userName}</Typography>
+            <Typography>{docentes[0].ciudad_residencia}</Typography>
             <Typography variant='h7' fontWeight="bold">Dirección</Typography>
-            <Typography>{userApellido}</Typography>
+            <Typography>{docentes[0].direccion}</Typography>
             <Typography variant='h7' fontWeight="bold">Correo electrónico:</Typography>
-            <Typography>Cedula</Typography>
+            <Typography>{docentes[0].correo_electronico}</Typography>
             <Typography variant='h7' fontWeight="bold">Número de teléfono</Typography>
-            <Typography>{userApellido}</Typography>
+            <Typography>{docentes[0].numero_telefono}</Typography>
             <Typography variant='h7' fontWeight="bold">Fecha de nacimiento:</Typography>
-            <Typography>Cedula</Typography>
+            <Typography>{docentes[0].fecha_nacimiento.substring(0,10)}</Typography>
+        </div>
+      )}
           </CardContent>
         </Card>
       
@@ -104,23 +132,3 @@ const PersonalDataDisplay = ({ name, email, phoneNumber, photoUrl }) => {
 
 
 export default PersonalDataDisplay;
-/*return (
-    <div>
-        <Navbar />
-        <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Datos Personales
-      </Typography>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <TextField  variant="outlined" value={userName} disabled />
-        <TextField label="Email" variant="outlined" value={email} disabled />
-        <TextField label="Número de Teléfono" variant="outlined" value={phoneNumber} disabled />
-        <TextField label="URL de la Fotografía" variant="outlined" value={photoUrl} disabled />
-        {/* Puedes agregar más campos de datos personales aquí }
-        {photoUrl && <img src={photoUrl} alt="Fotografía" style={{ width: '100%', maxWidth: '300px' }} />}
-      </div>
-    </Container>
-    </div>
-    
-  );*/
-
