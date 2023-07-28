@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
@@ -24,8 +24,8 @@ app.use(require('./routes/index'));
 const dbConfig = {
   host:'localhost',
   user: 'postgres',
-  password: '1234',
-  database: 'hojadevida',
+  password: 'admin',
+  database: 'HOJAS_DE_VIDA',
   port: 5433
 };
 
@@ -54,6 +54,7 @@ storage: storage
 app.post('/upload/:id_docente',upload.single('image'), (req,res) => {
   let image = req.file.filename;
   const id_docente = req.params.id_docente;
+  console.log(id_docente,image);
   const sql = "UPDATE docente SET fotografia=$1 WHERE id_docente=$2";
     db.query(sql,[image,id_docente],(err,result) =>{
     if(err) return res.json({Message: "Error"});
