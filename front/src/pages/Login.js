@@ -1,7 +1,7 @@
 import React, { useState,useContext } from 'react';
 import { useNavigate} from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-import "../styles/Login.css"
+import "../styles/login.css"
 
 
 export default function Login() {
@@ -16,7 +16,7 @@ export default function Login() {
 
     try {
       
-      const response = await fetch('http://localhost:4000/api/login', {
+      const response = await fetch('http://localhost:8000/api/login', {
         
         method: 'POST',
         headers: {
@@ -33,7 +33,7 @@ export default function Login() {
         setUserEmail(email);
         setUserName(data.nombre);
         setUserApellido(data.apellido);
-        navigate('/Personal');
+        navigate('/Inicio');
         
        // console.log(data.message);
       } else {
