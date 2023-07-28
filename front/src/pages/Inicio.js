@@ -10,6 +10,20 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+import UserProfileCard from '../components/UserProfileCard';
+
+const user = {
+  name: 'Juana Banana',
+  email: 'johndoe@example.com',
+  avatarUrl: 'https://cdn-icons-png.flaticon.com/512/5231/5231019.png',
+  country: 'USA',
+  role: 'admin',
+};
+
+const countries = ['USA', 'Canada', 'UK', 'Australia'];
+const roles = ['admin', 'user', 'guest'];
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -92,7 +106,7 @@ const CurriculumVitae = () => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          <UserProfileCard user={user} countries={countries} roles={roles} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two
