@@ -4,8 +4,8 @@ const {Pool} = require('pg');
 const dbConfig = {
     host:'localhost',
     user: 'postgres',
-    password: '1234',
-    database: 'hojadevida',
+    password: 'admin',
+    database: 'HOJAS_DE_VIDA',
     port: 5433
 };
 
@@ -42,10 +42,9 @@ const getDocentes = async (req, res) => {
 //Obtener todas las capacidades especiales por docente 
 const getDocenteById = async (req, res) => {
   const id_docente = req.params.id_docente;
-  console.log(id_docente)
   const response = await db.query("SELECT * FROM docente WHERE id_docente=$1",[id_docente]);
   res.send(response.rows);
-  console.log(response.rows)
+
 };
 //Insertar docente
 const createDocente = async (req, res) => {
@@ -59,7 +58,7 @@ const createDocente = async (req, res) => {
 const updateDocente= async (req, res) => {
   const id_docente = req.params.id_docente;
   const {tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial} = req.body;
-
+  
   const response =await db.query('UPDATE docente SET tipo_documento=$1, numero_documento=$2, genero=$3, estado_civil=$4, nacionalidad=$5, etnia=$6, fotografia=$7, archivo=$8, nombre=$9, apellido=$10, ciudad_residencia=$11, provincia=$12, direccion=$13, correo_electronico=$14, correo_alterno=$15, tipo_sangre=$16, numero_telefono=$17, fecha_nacimiento=$18, enfermedad_catastrofica=$19, capacidad_especial=$20 WHERE id_docente=$21;', 
   [tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial,id_docente]);
   res.send("Docente actualizado")
@@ -183,8 +182,9 @@ const createEducacion = async (req, res) => {
 //Actualizar educacion
 const updateEducacion= async (req, res) => {
     const id_educacion = req.params.id_educacion;
+    console.log(id_educacion)
     const {institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio} = req.body;
-  
+    console.log(numero_senescyt)
     const response =await db.query('UPDATE educacion SET institucion=$1, titulo=$2, nivel=$3, numero_senescyt=$4, campo_estudio=$5, fecha_inicio=$6, fecha_graduacion=$7, fecha_registro=$8, pais=$9, anios_estudio=$10 WHERE id_educacion=$11;', 
     [institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio,id_educacion]);
   };
@@ -357,11 +357,11 @@ const deletePublicacion = async (req, res) => {
 
 const getUser= async (req, res) => {
   const { email, password } = req.body;
-
+  
   try {
     // Realizar la consulta a la base de datos para verificar las credenciales
     const queryResult = await db.query('SELECT * FROM usuarios WHERE id = $1 AND contrasena= $2', [email, password]);
-
+    console.log(queryResult)
     if (queryResult.rows.length === 1) {
       // Credenciales válidas
       res.status(200).json({ message: 'Inicio de sesión exitoso' });
