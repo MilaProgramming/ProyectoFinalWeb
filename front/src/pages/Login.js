@@ -31,6 +31,7 @@ export default function Login() {
         // Inicio de sesión exitoso
         // Aquí puedes redirigir al usuario a la página de Inicio o realizar otras acciones.
         setUserEmail(email);
+        localStorage.setItem('id_docente', email);
         setUserName(data.nombre);
         setUserApellido(data.apellido);
         navigate('/Inicio');
