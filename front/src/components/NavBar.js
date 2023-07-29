@@ -1,12 +1,12 @@
 import React  from 'react';
 //import { useState, useEffect, useContext } from 'react';
 import { Toolbar, Button,Box, Avatar } from '@mui/material';
-//import { useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 //import { AuthContext } from '../contexts/AuthContext';
 
 const Navbar = () => {
   // const [isFixed, setIsFixed] = useState(false);
-
+  const navigate = useNavigate();
   // useEffect(() => {
   //   const handleScroll = () => {
   //     const isScrolled = window.scrollY > 0;
@@ -27,7 +27,11 @@ const Navbar = () => {
   //   navigate('/');
   //   // Lógica para cerrar sesión...
   // };
-  
+  const handleLogout = () => {
+       localStorage.setItem("id_docente","");
+       navigate('/');
+       // Lógica para cerrar sesión...
+     };
   //const navigate = useNavigate();
   return (
       
@@ -55,7 +59,7 @@ const Navbar = () => {
         marginRight: '4rem',
         }}>
           <Button color="inherit" sx={{fontFamily: 'poppins, sans-serif', color: 'white'}}>Acerca De</Button>
-          <Button color="inherit" sx={{fontFamily: 'poppins, sans-serif', color: 'white'}} onClick={{/*handleLogout*/}}>Cerrar Sesión</Button>
+          <Button color="inherit" sx={{fontFamily: 'poppins, sans-serif', color: 'white'}} onClick={handleLogout}>Cerrar Sesión</Button>
         </Box>
       </Toolbar>
 
