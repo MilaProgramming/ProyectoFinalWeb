@@ -73,7 +73,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
 
   useLayoutEffect(()=> {
     
-    const id_docente=userEmail;
+    const id_docente=localStorage.getItem("id_docente");;
     console.log(id_docente);
     axios.get(`http://localhost:8000/educacion/${id_docente}`).then((response) => {
       setDocentes(response.data);
