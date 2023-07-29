@@ -100,7 +100,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
   const handleUpload = () => {
     const formdata = new FormData();
     formdata.append('image', file);
-    const id_docente=userEmail;
+    const id_docente=localStorage.getItem("id_docente");
     axios.post(`http://localhost:8000/upload/${id_docente}`,formdata)
     .then(res => console.log(res))
     .catch(err => console.log(err))
@@ -108,7 +108,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
   const [docentes, setDocentes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useLayoutEffect(()=> {
-    const id_docente=userEmail;
+    const id_docente=localStorage.getItem("id_docente");;
     console.log(id_docente);
     axios.get(`http://localhost:8000/docente/${id_docente}`).then((response) => {
       setDocentes(response.data);
