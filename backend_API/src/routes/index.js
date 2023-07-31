@@ -29,7 +29,7 @@ router.post('/docentes', createDocente);
 router.post('/capacidades_especiales', createCapacidadEspecial);
 router.post('/contactos_emergencia', createContactoEmergencia);
 router.post('/cursos', createCursos);
-router.post('/educacion', createEducacion);
+router.post('/educacion/:id_docente', createEducacion);
 router.post('/enfermedad_catastrofica', createEnfermedadCatastrofica);
 router.post('/experiencia_laboral',createExperienciaLaboral);
 router.post('/idioma',createIdioma);
