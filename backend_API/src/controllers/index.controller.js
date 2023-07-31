@@ -57,10 +57,10 @@ const createDocente = async (req, res) => {
 //Actualizar datos docente
 const updateDocente= async (req, res) => {
   const id_docente = req.params.id_docente;
-  const {tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial} = req.body;
-  
-  const response =await db.query('UPDATE docente SET tipo_documento=$1, numero_documento=$2, genero=$3, estado_civil=$4, nacionalidad=$5, etnia=$6, fotografia=$7, archivo=$8, nombre=$9, apellido=$10, ciudad_residencia=$11, provincia=$12, direccion=$13, correo_electronico=$14, correo_alterno=$15, tipo_sangre=$16, numero_telefono=$17, fecha_nacimiento=$18, enfermedad_catastrofica=$19, capacidad_especial=$20 WHERE id_docente=$21;', 
-  [tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial,id_docente]);
+  const {tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento} = req.body;
+  console.log(fecha_nacimiento)
+  const response =await db.query('UPDATE docente SET tipo_documento=$1, numero_documento=$2, genero=$3, estado_civil=$4, nacionalidad=$5, etnia=$6, nombre=$7, apellido=$8, ciudad_residencia=$9, provincia=$10, direccion=$11, correo_electronico=$12, correo_alterno=$13, tipo_sangre=$14, numero_telefono=$15, fecha_nacimiento=$16 WHERE id_docente=$17;', 
+  [tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,id_docente]);
   res.send("Docente actualizado")
 };
 
@@ -163,13 +163,13 @@ const deleteCurso = async (req, res) => {
 //Obtener la educación del docente  
 const getEducacion = async (req, res) => {
   const id_docente = req.params.id_docente;
-  const response = await db.query("SELECT * FROM educacion WHERE id_docente=$1",[id_docente]);
+  const response = await db.query("SELECT * FROM educacion WHERE id_docente=$1 ORDER BY id_educacion ASC",[id_docente]);
   res.send(response.rows);
 };
 //Insertar educacion
 const createEducacion = async (req, res) => {
-    
-  const {id_docente, institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio} = req.body;
+  const id_docente = req.params.id_docente;
+  const {institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_educacion) AS max_id FROM educacion;');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -182,9 +182,8 @@ const createEducacion = async (req, res) => {
 //Actualizar educacion
 const updateEducacion= async (req, res) => {
     const id_educacion = req.params.id_educacion;
-    console.log(id_educacion)
     const {institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio} = req.body;
-    console.log(numero_senescyt)
+    
     const response =await db.query('UPDATE educacion SET institucion=$1, titulo=$2, nivel=$3, numero_senescyt=$4, campo_estudio=$5, fecha_inicio=$6, fecha_graduacion=$7, fecha_registro=$8, pais=$9, anios_estudio=$10 WHERE id_educacion=$11;', 
     [institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio,id_educacion]);
   };
@@ -361,7 +360,6 @@ const getUser= async (req, res) => {
   try {
     // Realizar la consulta a la base de datos para verificar las credenciales
     const queryResult = await db.query('SELECT * FROM usuarios WHERE id = $1 AND contrasena= $2', [email, password]);
-    console.log(queryResult)
     if (queryResult.rows.length === 1) {
       // Credenciales válidas
       res.status(200).json({ message: 'Inicio de sesión exitoso' });
