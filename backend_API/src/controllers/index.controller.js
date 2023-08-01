@@ -72,8 +72,8 @@ const getCapacidadesEspeciales = async (req, res) => {
   };
 //Insertar capacidad especial
 const createCapacidadEspecial = async (req, res) => {
-    
-  const {doc_id_docente, tipo_capacidad, porcentaje, numero_carnet} = req.body;
+  const doc_id_docente = req.params.id_docente;
+  const {tipo_capacidad, porcentaje, numero_carnet} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_capacidad) AS max_id FROM capacidad_especial;');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -87,7 +87,6 @@ const createCapacidadEspecial = async (req, res) => {
 const updateCapacidadEspecial= async (req, res) => {
     const id_capacidad = req.params.id_capacidad;
     const {tipo_capacidad, porcentaje, numero_carnet} = req.body;
-  
     const response =await db.query('UPDATE capacidad_especial SET tipo_capacidad=$1, porcentaje=$2, numero_carnet=$3 WHERE id_capacidad=$4', 
     [tipo_capacidad, porcentaje, numero_carnet,id_capacidad]);
   };
@@ -104,8 +103,8 @@ const updateCapacidadEspecial= async (req, res) => {
   };
 //Insertar contacto de emergencia
 const createContactoEmergencia = async (req, res) => {
-    
-  const {id_docente, nombres, apellidos, tipo_documento, numero_documento, parentesco, provincia, canton, parroquia, calle_principal, numero_casa, numero_referencia, telefono_domicilio, telefono_celular} = req.body;
+  const id_docente = req.params.id_docente;
+  const { nombres, apellidos, tipo_documento, numero_documento, parentesco, provincia, canton, parroquia, calle_principal, numero_casa, numero_referencia, telefono_domicilio, telefono_celular} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_contacto) AS max_id FROM contacto_emergencia;');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -136,8 +135,8 @@ const getCursos = async (req, res) => {
 };  
 //Insertar cursos
 const createCursos = async (req, res) => {
-    
-  const {id_docente, nombre_curso, institucion, pais, anio, fecha_inicial, fecha_final, tipo_certificado, horas} = req.body;
+  const id_docente = req.params.id_docente;
+  const {nombre_curso, institucion, pais, anio, fecha_inicial, fecha_final, tipo_certificado, horas} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_curso) AS max_id FROM curso;');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -200,8 +199,8 @@ const getEnfermedadCatastrofica = async (req, res) => {
 };
 //Insertar enfermedad catastrofica
 const createEnfermedadCatastrofica = async (req, res) => {
-    
-  const {id_docente, tipo_enfermedad} = req.body;
+  const id_docente = req.params.id_docente;
+  const { tipo_enfermedad} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_enfermedad) AS max_id FROM enfermedad_catastrofica');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -232,8 +231,8 @@ const getExperienciaLaboral = async (req, res) => {
 };
 //Insertar experiencia laboral
 const createExperienciaLaboral = async (req, res) => {
-    
-  const {id_docente, empresa, unidad_empresa, modalidad_contratacion, motivo_salida, pais, tipo_institucion, puesto, descripcion, fecha_inicio, fecha_fin, provincia} = req.body;
+  const id_docente = req.params.id_docente;
+  const { empresa, unidad_empresa, modalidad_contratacion, motivo_salida, pais, tipo_institucion, puesto, descripcion, fecha_inicio, fecha_fin, provincia} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_exp_lab) AS max_id FROM experiencia_laboral');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -264,8 +263,8 @@ const getIdiomas = async (req, res) => {
 };
 //Insertar idioma
 const createIdioma = async (req, res) => {
-    
-  const { id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion} = req.body;
+  const id_docente = req.params.id_docente;
+  const { nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_idioma) AS max_id FROM idioma');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -296,8 +295,8 @@ const getInformacionBancaria= async (req, res) => {
 };
 //Insertar informacion bancaria
 const createInformacionBancaria = async (req, res) => {
-    
-  const {id_docente, tipo_institucion, nombre_institucion, tipo_cuenta, numero_cuenta} = req.body;
+  const id_docente = req.params.id_docente;
+  const {tipo_institucion, nombre_institucion, tipo_cuenta, numero_cuenta} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_inf_bancaria) AS max_id FROM informacion_bancaria');
   const lastId = maxIdQuery.rows[0].max_id;
 
@@ -328,8 +327,8 @@ const getPublicaciones= async (req, res) => {
 };
 //Insertar publicacion
 const createPublicacion = async (req, res) => {
-    
-  const {id_docente, autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto} = req.body;
+  const id_docente = req.params.id_docente;
+  const { autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_publicacion) AS max_id FROM publicacion');
   const lastId = maxIdQuery.rows[0].max_id;
 
