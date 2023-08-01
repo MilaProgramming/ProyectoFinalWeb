@@ -1,5 +1,5 @@
 // UserProfileCard.js
-import {React,useState,useContext,useLayoutEffect} from 'react';
+import {React,useState,useLayoutEffect} from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
@@ -8,8 +8,6 @@ import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { AuthContext } from '../contexts/AuthContext';
-
 const imagenes = require.context('../../../backend_API/src/images',true);
 
 const useStyles = makeStyles((theme) => ({
@@ -57,9 +55,16 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
   const [file, setFile] =useState();
   const [body, setBody] = useState({ tipo_documento: '', numero_documento: '', genero: '', estado_civil:'', nacionalidad:'',etnia:'', nombre:'', apellido:'', ciudad_residencia:'',provincia:'',direccion:'',correo_electronico:'',correo_alterno:'',tipo_sangre:'',numero_telefono:'',fecha_nacimiento:''});
   const [formularioVisible, setFormularioVisible] = useState(false);
+  const [docentes, setDocentes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const minFechaPermitida = '2012-01-01';
+  const maxFechaPermitida = '2023-07-31';
+  let fechaValida=true;
+
   const handleFile = (e) => {
     setFile(e.target.files[0])
   }
+
   const handleUpload = () => {
     const formdata = new FormData();
     formdata.append('image', file);
@@ -69,12 +74,43 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
     .catch(err => console.log(err))
     setFormularioVisible(false)
   }
-  const [docentes, setDocentes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isComplete,setIsComplete] = useState(true);
-  const [isValidDate,setIsValidDate] = useState(true);
-  const minFechaPermitida = '2012-01-01';
-  const maxFechaPermitida = '2023-07-31';
+  
+  const actualizarDocente = () => {
+    if( fechaValida === false){
+      alert('Fecha invalida');
+    }else{
+    const id_docente=localStorage.getItem("id_docente");
+    axios.put(`http://localhost:8000/docente/${id_docente}`, body);
+    }
+  };
+  const inputChange = ({ target }) => {
+    const { name, value } = target
+    if(value === ''){
+      alert('Por favor no deje campos en blanco')
+    }else{
+    setBody({
+        ...body,
+        [name]: value
+    })
+  }
+
+  }
+  const validarFecha = () => {
+    if(body.fecha_nacimiento>maxFechaPermitida || body.fecha_nacimiento<minFechaPermitida){
+      fechaValida=false;
+     }
+  }
+  const asignarDatos = (docente) => {
+    for (const prop in docente) {
+      if (body[prop] === '') {   
+        if (['fecha_nacimiento'].includes(prop)) {
+          body[prop] = docente[prop].substring(0, 10);
+        } else {
+          body[prop] = docente[prop];
+        }
+      }
+    }
+  }
   useLayoutEffect(()=> {
     const id_docente=localStorage.getItem("id_docente");;
     console.log(id_docente);
@@ -85,35 +121,6 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
     });
     
   }, []);
-  const actualizarDocente = () => {
-    if(isComplete == false){
-      alert('Complete todos los campos');
-    }else{
-    const id_docente=localStorage.getItem("id_docente");
-    axios.put(`http://localhost:8000/docente/${id_docente}`, body);
-    }
-  };
-  const inputChange = ({ target }) => {
-    console.log(body.tipo_documento)
-    const { name, value } = target
-    setBody({
-        ...body,
-        [name]: value
-    })
-
-  }
-  const asignarDatos = (docente) => {
-    for (const prop in docente) {
-      if (body[prop] === '') {
-        setIsComplete(false);
-        if (['fecha_nacimiento'].includes(prop)) {
-          body[prop] = docente[prop].substring(0, 10);
-        } else {
-          body[prop] = docente[prop];
-        }
-      }
-    }
-  }
   return (
 
     <div className={classes.root}>
@@ -123,62 +130,51 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
         <div className={classes.avatarContainer}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* Imagen de perfil */}
-      <img
-        className={classes.fotoPerfil}
-        alt={user.name}
-        src={imagenes(`./${docentes[0].fotografia}`)}
-      />
-
-      {/* Botón en la esquina inferior derecha */}
-      <Button
-        variant="contained"
-        color="success"
-        size="small"
-        onClick={() => setFormularioVisible(true)}
-        startIcon={<CameraIcon />}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-        }}
-      >
-        
-      </Button>
-    </div>
-
-        {/* Coloca el texto al lado de la imagen dentro del mismo contenedor */}
+          <img
+            className={classes.fotoPerfil}
+            alt={user.name}
+            src={imagenes(`./${docentes[0].fotografia}`)}
+          />
+          <Button
+            variant="contained"
+            color="success"
+            size="small"
+            onClick={() => setFormularioVisible(true)}
+            startIcon={<CameraIcon />}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+            }}
+          >
+            
+          </Button>
+        </div>
         <Typography variant="h6" style={{padding:'15px'}}>
           { 'Bienvenido'+ ' ' +docentes[0].nombre + ' ' + docentes[0].apellido}
         </Typography>
         </div> 
         {formularioVisible && (
           <>
-          <div style={{ margin: '16px' }} /> {/* Espacio en blanco entre los TextField */}
+          <div style={{ margin: '16px' }} /> 
           <label className={classes.customFile} >
-      {/* Botón personalizado */}
-      SELECCIONAR ARCHIVO
-      {/* Input oculto */}
-      <input
-        type="file"
-        onChange={handleFile}
-        style={{ display: 'none' }} // Ocultar el input
-      />
-    </label>
+            SELECCIONAR ARCHIVO
+            <input
+              type="file"
+              onChange={handleFile}
+              style={{ display: 'none' }} 
+            />
+          </label>
           <Button style={{marginLeft:"15px"}}  variant="contained" color="success" onClick={handleUpload} >Actualizar
            </Button>
            </>
         )}
-
         </div>
-        
-
       )}
       {isLoading ? (
         <div>Cargando datos...</div>
       ) : (
-        <div className={classes.formContainer}>
-          
+        <div className={classes.formContainer}>        
         <TextField
             label="Nombre"
             name='nombre'
@@ -314,31 +310,29 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
               onChange={(event, value) => body.tipo_sangre=value}
               
             />
-            <div style={{ margin: '16px' }} /> {/* Espacio en blanco entre los TextField */}
+          <div style={{ margin: '16px' }} /> 
           <TextField
           style={{paddingBottom:"15px"}}
           name='fecha_nacimiento'
           label="Fecha nacimiento"
-          type="date" // Establece el tipo de entrada como 'date'
+          type="date" 
           defaultValue={docentes[0].fecha_nacimiento.substring(0,10)}
           InputLabelProps={{
-            shrink: true, // Hace que el label se encoja para dar espacio a la fecha seleccionada
+            shrink: true, 
           }}
-          inputProps={{
+          inputProps={{         
             min: minFechaPermitida,
             max: maxFechaPermitida,
           }}
           onChange={inputChange}
           />
-
-        {/* Add more personal data fields here */}
-        <div style={{ margin: '16px' }} /> {/* Espacio en blanco entre los TextField */}
+        <div style={{ margin: '16px' }} /> 
         <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         >
-        <Button variant="contained" color="success"  onClick={() => { asignarDatos(docentes[0]);actualizarDocente();window.location.reload()  }}>Actualizar Datos</Button>
+        <Button variant="contained" color="success"  onClick={() => { asignarDatos(docentes[0]);validarFecha();actualizarDocente();window.location.reload()}}>Actualizar Datos</Button>
         </Box>
       </div>
 
