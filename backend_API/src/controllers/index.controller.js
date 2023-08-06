@@ -49,19 +49,18 @@ const getDocenteById = async (req, res) => {
 //Insertar docente
 const createDocente = async (req, res) => {
   const id_docente = req.params.id_docente;
-  const { tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento} = req.body;
+  const { tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,enfermedad_catastrofica} = req.body;
   const fotografia ='profile.png';
-  const insertQuery = await db.query('INSERT INTO public.docente(id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento)VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)',
-  [id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento]);
+  const insertQuery = await db.query('INSERT INTO public.docente(id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,enfermedad_catastrofica)VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19,$20)',
+  [id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,enfermedad_catastrofica]);
   res.send("Docente registrado")
 };
 //Actualizar datos docente
 const updateDocente= async (req, res) => {
   const id_docente = req.params.id_docente;
-  const {tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento} = req.body;
-  console.log(fecha_nacimiento)
-  const response =await db.query('UPDATE docente SET tipo_documento=$1, numero_documento=$2, genero=$3, estado_civil=$4, nacionalidad=$5, etnia=$6, nombre=$7, apellido=$8, ciudad_residencia=$9, provincia=$10, direccion=$11, correo_electronico=$12, correo_alterno=$13, tipo_sangre=$14, numero_telefono=$15, fecha_nacimiento=$16 WHERE id_docente=$17;', 
-  [tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,id_docente]);
+  const {tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,enfermedad_catastrofica} = req.body;
+  const response =await db.query('UPDATE docente SET tipo_documento=$1, numero_documento=$2, genero=$3, estado_civil=$4, nacionalidad=$5, etnia=$6, nombre=$7, apellido=$8, ciudad_residencia=$9, provincia=$10, direccion=$11, correo_electronico=$12, correo_alterno=$13, tipo_sangre=$14, numero_telefono=$15, fecha_nacimiento=$16, enfermedad_catastrofica=$17 WHERE id_docente=$18;', 
+  [tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento,enfermedad_catastrofica,id_docente]);
   res.send("Docente actualizado")
 };
 
