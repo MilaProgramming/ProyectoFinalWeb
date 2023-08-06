@@ -26,20 +26,20 @@ router.get('/informacion_bancaria/:id_docente', getInformacionBancaria);
 router.get('/publicaciones/:id_docente', getPublicaciones);
 //POST
 router.post('/docentes/:id_docente', createDocente);
-router.post('/capacidades_especiales/:id_docente', createCapacidadEspecial);
-router.post('/contactos_emergencia/:id_docente', createContactoEmergencia);
-router.post('/cursos/:id_docente', createCursos);
+router.post('/capacidad_especial/:id_docente', createCapacidadEspecial);
+router.post('/contacto_emergencia/:id_docente', createContactoEmergencia);
+router.post('/curso/:id_docente', createCursos);
 router.post('/educacion/:id_docente', createEducacion);
 router.post('/enfermedad_catastrofica/:id_docente', createEnfermedadCatastrofica);
 router.post('/experiencia_laboral/:id_docente',createExperienciaLaboral);
 router.post('/idioma/:id_docente',createIdioma);
 router.post('/informacion_bancaria/:id_docente',createInformacionBancaria);
 router.post('/publicacion/:id_docente',createPublicacion);
-router.post('/api/login/:id_docente', getUser);
+router.post('/api/login', getUser);
 //PUT
 router.put('/docente/:id_docente', updateDocente);
 router.put('/capacidad_especial/:id_capacidad', updateCapacidadEspecial);
-router.put('/capacidad_especial/:id_contacto', updateContactoEmergencia);
+router.put('/contacto_emergencia/:id_contacto', updateContactoEmergencia);
 router.put('/curso/:id_curso', updateCurso);
 router.put('/educacion/:id_educacion', updateEducacion);
 router.put('/enfermedad_catastrofica/:id_enfermedad', updateEnfermedadCatastrofica);
