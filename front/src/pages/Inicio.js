@@ -12,6 +12,14 @@ import Box from '@mui/material/Box';
 
 import UserProfileCard from '../components/UserProfileCard';
 import InformacionAcademica from '../components/InformacionAcademica';
+import SpecialCapability from '../components/SpecialCapability';
+import BankInformation from '../components/BankInformation';
+import ExperienciaLaboral from '../components/ExperienciaLaboral';
+import ContactoEmergencia from '../components/ContactoEmergencia';
+import Idioma from '../components/Idioma';
+import Publicacion from '../components/Publicacion';
+import Curso from '../components/Curso';
+import Formatos from '../components/Formatos';
 const user = {
   name: 'Juana Banana',
   email: 'johndoe@example.com',
@@ -74,10 +82,10 @@ const CurriculumVitae = () => {
 
   return (
 
-    <div>
+    <div >
       <Navbar />
 
-      <Box sx={{ bgcolor: '#C8D6C9', width: 1300, marginTop:'8rem', marginLeft:'15%' }}>
+      <Box sx={{ bgcolor: '#C8D6C9', width: "80%", marginTop:'8rem', marginLeft:'15%' }}>
       <AppBar position="static">
         <Tabs
           value={value}
@@ -98,7 +106,14 @@ const CurriculumVitae = () => {
         >
           <Tab label="Información Personal" {...a11yProps(0)} sx={{fontFamily: 'poppins, sans-serif'}}/>
           <Tab label="Información Académica" {...a11yProps(1)} sx={{fontFamily: 'poppins, sans-serif'}}/>
-          <Tab label="..." {...a11yProps(2)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Capacidades Especiales" {...a11yProps(2)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Información Bancaria" {...a11yProps(3)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Experiencia Laboral" {...a11yProps(4)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Contacto de Emergencia" {...a11yProps(5)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Idioma" {...a11yProps(6)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Publicaciones Académicas" {...a11yProps(7)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Cursos" {...a11yProps(8)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="..." {...a11yProps(9)} sx={{fontFamily: 'poppins, sans-serif'}}/>
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -113,7 +128,28 @@ const CurriculumVitae = () => {
           <InformacionAcademica/>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <SpecialCapability/>
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+        <BankInformation/>
+        </TabPanel>
+        <TabPanel value={value} index={4} dir={theme.direction}>
+        <ExperienciaLaboral/>
+        </TabPanel>
+        <TabPanel value={value} index={5} dir={theme.direction}>
+        <ContactoEmergencia/>
+        </TabPanel>
+        <TabPanel value={value} index={6} dir={theme.direction}>
+        <Idioma/>
+        </TabPanel>
+        <TabPanel value={value} index={7} dir={theme.direction}>
+        <Publicacion/>
+        </TabPanel>
+        <TabPanel value={value} index={8} dir={theme.direction}>
+        <Curso/>
+        </TabPanel>
+        <TabPanel value={value} index={9} dir={theme.direction}>
+          <Formatos/>
         </TabPanel>
       </SwipeableViews>
     </Box>
