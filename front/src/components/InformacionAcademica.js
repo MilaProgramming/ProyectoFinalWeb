@@ -93,7 +93,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
     for (const prop in docente) {
       if (body[prop] === '') {
         if (['fecha_inicio', 'fecha_graduacion', 'fecha_registro'].includes(prop)) {
-          fechaValida=false;
+          //fechaValida=false;
           body[prop] = docente[prop].substring(0, 10);
         } else {
           body[prop] = docente[prop];
@@ -103,7 +103,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
 
   }
   const validarFecha = () => {
-    if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_graduacion>maxFechaPermitida || body.fecha_graduacion<minFechaPermitida || body.fecha_graduacion>maxFechaPermitida || body.fecha_registro<minFechaPermitida || body.fecha_inicio===''||body.fecha_graduacion===''||body.fecha_registro===''){
+    if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_graduacion>maxFechaPermitida || body.fecha_graduacion<minFechaPermitida || body.fecha_registro>maxFechaPermitida || body.fecha_registro<minFechaPermitida || body.fecha_inicio===''||body.fecha_graduacion===''||body.fecha_registro===''){
       fechaValida=false;
      }
   }
@@ -111,7 +111,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
     
     <div className={classes.root}>
       {isLoading ? (
-        <div>Cargando datos...</div>
+        <div>No se ha encontrado información.</div>
       ) : (
         <div>
         {docentes.map((docente) => {
@@ -219,7 +219,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
         justifyContent="center"
         alignItems="center"
         >
-        <Button variant="contained" color="success" onClick={() => { validarFecha();asignarDatos(docente);actualizarEducacion(docente.id_educacion)}}>Actualizar</Button>
+        <Button variant="contained" color="success" onClick={() => { asignarDatos(docente);validarFecha();actualizarEducacion(docente.id_educacion)}}>Actualizar</Button>
         
         <Button style={{marginLeft:"15px"}} variant="contained" color="success" onClick={() => { eliminarEducacion(docente.id_educacion);window.location.reload();}}>Eliminar</Button>
         </Box>
@@ -232,7 +232,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar nueva información</Button>
+        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar información</Button>
         </Box>
         {formularioVisible && (
           <div className={classes.formContainer}>
