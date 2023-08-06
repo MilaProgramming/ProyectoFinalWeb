@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
   const classes = useStyles();
   const [file, setFile] = useState();
-  const [body, setBody] = useState({ tipo_documento: '', numero_documento: '', genero: '', estado_civil: '', nacionalidad: '', etnia: '', nombre: '', apellido: '', ciudad_residencia: '', provincia: '', direccion: '', correo_electronico: '', correo_alterno: '', tipo_sangre: '', numero_telefono: '', fecha_nacimiento: '' });
+  const [body, setBody] = useState({ tipo_documento: '', numero_documento: '', genero: '', estado_civil: '', nacionalidad: '', etnia: '', nombre: '', apellido: '', ciudad_residencia: '', provincia: '', direccion: '', correo_electronico: '', correo_alterno: '', tipo_sangre: '', numero_telefono: '', fecha_nacimiento: '',enfermedad_catastrofica:'' });
   const [formularioVisible, setFormularioVisible] = useState(false);
   const [formularioDatos, setFormularioDatos] = useState(false);
   const [docentes, setDocentes] = useState([]);
@@ -74,7 +74,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
     setFormularioVisible(false)
   }
   const insertarInformacion =() =>{  
-    if(body.tipo_documento=== ''|| body.numero_documento=== ''|| body.genero=== '', body.estado_civil=== ''|| body.nacionalidad=== ''|| body.etnia=== ''|| body.nombre=== ''|| body.apellido=== ''|| body.ciudad_residencia=== ''|| body.provincia=== ''|| body.direccion=== ''|| body.correo_electronico=== ''|| body.correo_alterno=== '', body.tipo_sangre=== '', body.numero_telefono=== ''|| fechaValida=== false ){
+    if(body.tipo_documento=== ''|| body.numero_documento=== ''|| body.genero=== '', body.estado_civil=== ''|| body.nacionalidad=== ''|| body.etnia=== ''|| body.nombre=== ''|| body.apellido=== ''|| body.ciudad_residencia=== ''|| body.provincia=== ''|| body.direccion=== ''|| body.correo_electronico=== ''|| body.correo_alterno=== '', body.tipo_sangre=== '', body.numero_telefono=== ''||body.enfermedad_catastrofica===''|| fechaValida=== false ){
       !fechaValida? alert('Fecha inválida'):alert('Complete los campos');
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
@@ -290,6 +290,19 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 onChange={(event, value) => body.etnia = value}
 
               />
+              <Typography variant="subtitle1">Enfermedad Catastrófica:</Typography>
+
+              <Autocomplete
+                label='enfermedad'
+                name='enfermedad'
+                options={['Ninguna', 'Todo tipo de malformaciones congénitas de corazón',
+                  "Todo tipo de cáncer", "Insuficiencia renal crónica", "Trasplante de órganos: riñón, hígado, medula ósea",
+                  "Secuelas e quemaduras graves", "Malformaciones arterio venosas cerebrales", " Sindrome de klippel trenaunay",
+                  "Aneurisma tóraco-abdominal"]}
+                defaultValue={docentes[0].enfermedad_catastrofica}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => body.enfermedad_catastrofica = value}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} sm={6} maxWidth="sm" width="100%" sx={{ padding: 1 }}  >
@@ -474,6 +487,17 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             onChange={(event, value) => body.etnia = value}
 
           />
+          <Typography variant="subtitle1">Enfermedad catastrófica:</Typography>
+          <Autocomplete
+                label='enfermedad'
+                name='enfermedad'
+                options={['Ninguna', 'Todo tipo de malformaciones congénitas de corazón',
+                  "Todo tipo de cáncer", "Insuficiencia renal crónica", "Trasplante de órganos: riñón, hígado, medula ósea",
+                  "Secuelas e quemaduras graves", "Malformaciones arterio venosas cerebrales", " Sindrome de klippel trenaunay",
+                  "Aneurisma tóraco-abdominal"]}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => body.enfermedad_catastrofica = value}
+              />
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} maxWidth="sm" width="100%" sx={{ padding: 1 }}  >
