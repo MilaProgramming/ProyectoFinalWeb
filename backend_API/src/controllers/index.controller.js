@@ -48,10 +48,11 @@ const getDocenteById = async (req, res) => {
 };
 //Insertar docente
 const createDocente = async (req, res) => {
-    
-  const {id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial} = req.body;
-  const insertQuery = await db.query('INSERT INTO public.docente(id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial)VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)',
-  [id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial]);
+  const id_docente = req.params.id_docente;
+  const { tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento} = req.body;
+  const fotografia ='profile.png';
+  const insertQuery = await db.query('INSERT INTO public.docente(id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento)VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)',
+  [id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento]);
   res.send("Docente registrado")
 };
 //Actualizar datos docente
@@ -87,6 +88,7 @@ const createCapacidadEspecial = async (req, res) => {
 const updateCapacidadEspecial= async (req, res) => {
     const id_capacidad = req.params.id_capacidad;
     const {tipo_capacidad, porcentaje, numero_carnet} = req.body;
+    console.log(id_capacidad,tipo_capacidad, porcentaje, numero_carnet);
     const response =await db.query('UPDATE capacidad_especial SET tipo_capacidad=$1, porcentaje=$2, numero_carnet=$3 WHERE id_capacidad=$4', 
     [tipo_capacidad, porcentaje, numero_carnet,id_capacidad]);
   };
@@ -246,7 +248,6 @@ const createExperienciaLaboral = async (req, res) => {
 const updateExperienciaLaboral= async (req, res) => {
     const id_exp_lab = req.params.id_exp_lab;
     const {empresa, unidad_empresa, modalidad_contratacion, motivo_salida, pais, tipo_institucion, puesto, descripcion, fecha_inicio, fecha_fin, provincia} = req.body;
-  
     const response =await db.query('UPDATE experiencia_laboral SET empresa=$1, unidad_empresa=$2, modalidad_contratacion=$3, motivo_salida=$4, pais=$5, tipo_institucion=$6, puesto=$7, descripcion=$8, fecha_inicio=$9, fecha_fin=$10, provincia=$11 WHERE id_exp_lab=$12;', 
     [empresa, unidad_empresa, modalidad_contratacion, motivo_salida, pais, tipo_institucion, puesto, descripcion, fecha_inicio, fecha_fin, provincia,id_exp_lab]);
   };
@@ -264,23 +265,23 @@ const getIdiomas = async (req, res) => {
 //Insertar idioma
 const createIdioma = async (req, res) => {
   const id_docente = req.params.id_docente;
-  const { nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion} = req.body;
+  const { nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_comprension} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_idioma) AS max_id FROM idioma');
   const lastId = maxIdQuery.rows[0].max_id;
 
   // Calcular el nuevo ID sumando 1 al último ID obtenido
   const id_idioma = lastId + 1;
 
-  const insertQuery = await db.query('INSERT INTO idioma(id_idioma, id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion) VALUES ($1, $2, $3, $4, $5, $6)',
-  [id_idioma, id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion]);
+  const insertQuery = await db.query('INSERT INTO idioma(id_idioma, id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_comprension) VALUES ($1, $2, $3, $4, $5, $6)',
+  [id_idioma, id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_comprension]);
 };
 //Actualizar idioma
 const updateIdioma= async (req, res) => {
     const id_idioma = req.params.id_idioma;
-    const {nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion} = req.body;
+    const {nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_comprension} = req.body;
   
-    const response =await db.query('UPDATE idioma  SET nombre=$1, porcentaje_hablado=$2, porcentaje_escrito=$3, porcentaje_compresion=$4 WHERE id_idioma=$5;', 
-    [nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion,id_idioma]);
+    const response =await db.query('UPDATE idioma  SET nombre=$1, porcentaje_hablado=$2, porcentaje_escrito=$3, porcentaje_comprension=$4 WHERE id_idioma=$5;', 
+    [nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_comprension,id_idioma]);
   };
 //Eliminar idioma
 const deleteIdioma = async (req, res) => {
@@ -331,20 +332,29 @@ const createPublicacion = async (req, res) => {
   const { autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto} = req.body;
   const maxIdQuery = await db.query('SELECT MAX(id_publicacion) AS max_id FROM publicacion');
   const lastId = maxIdQuery.rows[0].max_id;
-
+  let boolRevision_pares;
   // Calcular el nuevo ID sumando 1 al último ID obtenido
   const id_publicacion = lastId + 1;
-
+  if(revision_pares==='SI'){
+    boolRevision_pares=true;
+  }else{
+    boolRevision_pares=false;
+  }
   const insertQuery = await db.query('INSERT INTO publicacion(id_publicacion, id_docente, autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13,$14)',
-  [id_publicacion, id_docente, autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto]);
+  [id_publicacion, id_docente, autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, boolRevision_pares, fecha, titulo, tipo, issn, impacto]);
 };
 //Actualizar publicacion
 const updatePublicacion= async (req, res) => {
     const id_publicacion = req.params.id_publicacion;
     const {autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto} = req.body;
-  
+    let boolRevision_pares;
+    if(revision_pares==='SI'){
+      boolRevision_pares=true;
+    }else{
+      boolRevision_paress=false;
+    }
     const response =await db.query('UPDATE publicacion SET autores=$1, publicador=$2, tipo_participacion=$3, idioma=$4, estado_publicacion=$5, numero_volumen=$6, revision_pares=$7, fecha=$8, titulo=$9, tipo=$10, issn=$11, impacto=$12 WHERE id_publicacion=$13;', 
-    [autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto,id_publicacion]);
+    [autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, boolRevision_pares, fecha, titulo, tipo, issn, impacto,id_publicacion]);
   };
 //Eliminar publicacion
 const deletePublicacion = async (req, res) => {
