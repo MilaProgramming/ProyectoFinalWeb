@@ -97,6 +97,7 @@ const Formato1 = () => {
   return (
     <>
       {isLoading ? (
+        
         <Document>
           <Page size="A4" style={styles.page}>
               <View style={styles.section}>
@@ -126,6 +127,7 @@ const Formato1 = () => {
                   <Text style={styles.text}>Número de teléfono: {docentes[0].numero_telefono}</Text>
                   <Text style={styles.subtitle}>Datos Médicos</Text>
                   <Text style={styles.text}>Tipo de sangre: {docentes[0].tipo_sangre}</Text>
+                  <Text style={styles.text}>Enfermedad catastrófica: {docentes[0].enfermedad_catastrofica}</Text>
                   <Text style={styles.text}>Fecha de nacimiento: {docentes[0].fecha_nacimiento.substring(0, 10)}</Text>
                   <Text> </Text> 
                 </>
