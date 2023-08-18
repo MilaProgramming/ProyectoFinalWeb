@@ -4,6 +4,8 @@ import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Autocomplete from '@mui/material/Autocomplete';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 
@@ -35,42 +37,80 @@ const useStyles = makeStyles((theme) => ({
 
 const InformacionAcademica = ({ user, countries, roles }) => {
   const classes = useStyles();
-
+  const [universidades,setUniversidades] = useState([]);
   const [docentes, setDocentes] = useState([]);
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [showCustomInputNew, setShowCustomInputNew] = useState(false);
+  const [id,setId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [formularioVisible, setFormularioVisible] = useState(false);
   const [body, setBody] = useState({ institucion: '', titulo: '', nivel: '', numero_senescyt:'', campo_estudio:'',fecha_inicio:'', fecha_graduacion:'', fecha_registro:'', pais:'',anios_estudio:'' });
-  const minFechaPermitida = '2012-01-01';
-  const maxFechaPermitida = '2023-07-31';
+  const minFechaPermitida = '1950-01-01';
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  const maxFechaPermitida = `${year}-${month}-${day}`;
   let fechaValida=true;
+  let numeroValido = true;
 
   useLayoutEffect(()=> {
     
     const id_docente=localStorage.getItem("id_docente");
     axios.get(`http://localhost:8000/educacion/${id_docente}`).then((response) => {
       setDocentes(response.data);
-      setIsLoading(false);
+      fetch('http://universities.hipolabs.com/search')
+      .then(response => response.json())
+      .then(data => {
+        const universitiesWithCountry = data.map(university => ({
+          name: university.name,
+          country: university.country
+        }));
+    
+        const sortedUniversities = universitiesWithCountry.sort((a, b) => {
+          if (a.country < b.country) {
+            return -1;
+          }
+          if (a.country > b.country) {
+            return 1;
+          }
+          return 0;
+        });
+    
+        const formattedUniversities = sortedUniversities.map(university => `${university.name} (${university.country})`);
+        setUniversidades(formattedUniversities);
+        setIsLoading(false);
+          })
+          
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      
 
       
     });
     
+    
   }, []);
 
   const actualizarEducacion = (id_educacion) => {
-    if(fechaValida=== false){
-      alert('Fecha inválida')
+    if(fechaValida=== false|| numeroValido===false){
+      !numeroValido? alert('Número de Senecyt inválido') : alert('Fecha inválida');
     }else{
     axios.put(`http://localhost:8000/educacion/${id_educacion}`, body);
+    setShowCustomInput(false);
     }
   };
   const insertarEducacion =() =>{  
-    if(body.institucion === '' || body.titulo=== '' || body.nivel=== ''|| body.numero_senescyt === '' ||body.campo_estudio===''||body.pais===''||body.anios_estudio===''||fechaValida===false){
-      !fechaValida? alert('Fecha inválida'):alert('Complete los campos');
+    if(body.institucion === '' || body.titulo=== '' || body.nivel=== ''|| body.numero_senescyt === '' ||body.campo_estudio===''||body.pais===''||body.anios_estudio===''||fechaValida===false || numeroValido===false){
+      !fechaValida? alert('Fecha inválida'):(!numeroValido? alert('Número de Senecyt inválido'):alert('Complete los campos'));
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
     axios.post(`http://localhost:8000/educacion/${id_docente}`, body);
     window.location.reload();
     setFormularioVisible(false);  
+    setShowCustomInputNew(false);
     }
     
   }
@@ -103,35 +143,87 @@ const InformacionAcademica = ({ user, countries, roles }) => {
 
   }
   const validarFecha = () => {
-    if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_graduacion>maxFechaPermitida || body.fecha_graduacion<minFechaPermitida || body.fecha_registro>maxFechaPermitida || body.fecha_registro<minFechaPermitida || body.fecha_inicio===''||body.fecha_graduacion===''||body.fecha_registro===''){
+    if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_graduacion>maxFechaPermitida || body.fecha_graduacion<minFechaPermitida || body.fecha_registro>maxFechaPermitida || body.fecha_registro<minFechaPermitida || body.fecha_inicio===''||body.fecha_graduacion===''||body.fecha_registro===''||body.fecha_inicio>body.fecha_graduacion|| body.fecha_inicio>body.fecha_registro||body.fecha_graduacion>body.fecha_registro){
       fechaValida=false;
      }
   }
+  const validarNumero = () => {
+    if(body.numero_senescyt.length>20){
+      numeroValido=false;
+    }
+  }
+  
+  const handleAutocompleteChange = (event,value,id) => {
+    if (value === 'otros') {
+      setShowCustomInput(true);
+      setId(id);
+    } else {
+      setShowCustomInput(false);
+      body.institucion= value;
+    }
+  };
+
+  const handleCustomInputChange = event => {
+    if(event.target.value===''){
+      alert('No deje campos vacíos')
+    }else{
+    body.institucion= event.target.value;
+    }
+  };
+  const handleAutocompleteChangeNew = (event, value) => {
+    if (value === 'otros') {
+      setShowCustomInputNew(true);
+     
+    } else {
+      setShowCustomInputNew(false);
+      body.institucion= value;
+    }
+  };
+
+  const handleCustomInputChangeNew = event => {
+    if(event.target.value===''){
+      alert('No deje campos vacíos')
+    }else{
+    body.institucion= event.target.value;
+    }
+  };
+
   return (
     
     <div className={classes.root}>
       {isLoading ? (
-        <div>No se ha encontrado información.</div>
+        <div>Cargando información...</div>
       ) : (
         <div>
         {docentes.map((docente) => {
             return ( 
         <div className={classes.formContainer}>
-        <TextField
-          name='institucion'
-          label="Institucion"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          defaultValue={docente.institucion}
-          onChange={inputChange}
+          <Typography variant="subtitle1">Institución:</Typography>
+
+          <Autocomplete
+        name='institucion'
+        options={[...universidades, 'otros']}
+        defaultValue={docente.institucion}
+        renderInput={(params) => <TextField {...params} variant="outlined" />}
+        onChange={(event, value) => handleAutocompleteChange(event, value, docente.id_educacion)}
         />
+      <br/>
+        {showCustomInput && docente.id_educacion===id && (
+          <TextField
+            label="Nombre de la Universidad"
+            variant="outlined"
+            inputProps={{ maxLength: 50 }}
+            //value={customInstitucion}
+            onChange={handleCustomInputChange}
+          />
+        )}
         <TextField
           name= 'titulo'
           label="Titulo"
           variant="outlined"
           fullWidth
           margin="normal"
+          inputProps={{ maxLength: 50 }}
           defaultValue={docente.titulo}
           onChange={inputChange}
                   />
@@ -141,6 +233,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           variant="outlined"
           fullWidth
           margin="normal"
+          inputProps={{ maxLength: 20 }}
           defaultValue={docente.nivel}
           onChange={inputChange}
         />
@@ -152,12 +245,14 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           margin="normal"
           defaultValue={docente.numero_senescyt}
           onChange={inputChange}
+          type="number"
         />
         <TextField
           name='campo_estudio'
           label="Campo de estudio"
           variant="outlined"
           fullWidth
+          inputProps={{ maxLength: 30 }}
           margin="normal"
           defaultValue={docente.campo_estudio}
           onChange={inputChange}
@@ -167,6 +262,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           label="País"
           variant="outlined"
           fullWidth
+          inputProps={{ maxLength: 30 }}
           margin="normal"
           defaultValue={docente.pais}
           onChange={inputChange}
@@ -176,6 +272,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           label="Años de estudio"
           variant="outlined"
           fullWidth
+          inputProps={{ maxLength: 20 }}
           margin="normal"
           defaultValue={docente.anios_estudio}
           onChange={inputChange}
@@ -219,7 +316,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
         justifyContent="center"
         alignItems="center"
         >
-        <Button variant="contained" color="success" onClick={() => { asignarDatos(docente);validarFecha();actualizarEducacion(docente.id_educacion)}}>Actualizar</Button>
+        <Button variant="contained" color="success" onClick={() => { asignarDatos(docente);validarFecha();validarNumero();actualizarEducacion(docente.id_educacion)}}>Actualizar</Button>
         
         <Button style={{marginLeft:"15px"}} variant="contained" color="success" onClick={() => { eliminarEducacion(docente.id_educacion);window.location.reload();}}>Eliminar</Button>
         </Box>
@@ -232,19 +329,28 @@ const InformacionAcademica = ({ user, countries, roles }) => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar información</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar información</Button>
         </Box>
         {formularioVisible && (
           <div className={classes.formContainer}>
-          <TextField
-            name='institucion'
-            required
-            label="Institucion"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            onChange={inputChange}
+          <Typography variant="subtitle1">Institución:</Typography>
+
+          <Autocomplete
+          name='institucion'
+          options={[...universidades, 'otros']}
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
+          onChange={handleAutocompleteChangeNew}
           />
+          <br/>
+          {showCustomInputNew && (
+          <TextField
+            label="Nombre de la Universidad"
+            variant="outlined"
+            inputProps={{ maxLength: 50 }}
+            //value={customInstitucion}
+            onChange={handleCustomInputChangeNew}
+          />
+          )}
           <TextField
             name= 'titulo'
             required
@@ -252,6 +358,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             variant="outlined"
             fullWidth
             margin="normal"
+            inputProps={{ maxLength: 50 }}
             onChange={inputChange}
           />
           <TextField
@@ -260,6 +367,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             label="Nivel"
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 20 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -271,11 +379,13 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             fullWidth
             margin="normal"
             onChange={inputChange}
+            type="number"
           />
           <TextField
             name='campo_estudio'
             required
             label="Campo de estudio"
+            inputProps={{ maxLength: 30 }}
             variant="outlined"
             fullWidth
             margin="normal"
@@ -287,6 +397,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             label="País"
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 30 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -296,6 +407,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             label="Años de estudio"
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 20 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -338,7 +450,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           justifyContent="center"
           alignItems="center"
           >
-          <Button variant="contained" color="success" onClick={() => {validarFecha();insertarEducacion()} }>Agregar</Button>
+          <Button variant="contained" color="success" onClick={() => {validarFecha();validarNumero();insertarEducacion()} }>Agregar</Button>
           </Box>
           </div>
 
