@@ -2,7 +2,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -11,7 +10,6 @@ import SchoolIcon from '@mui/icons-material/School';
 
 import axios from 'axios';
 import { Grid } from '@mui/material';
-const imagenes = require.context('../../../backend_API/src/images', true);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,8 +30,13 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [formularioVisible, setFormularioVisible] = useState(false);
   const [body, setBody] = useState({ autores: '', publicador: '', tipo_participacion: '', idioma:'', estado_publicacion:'',numero_volumen:'', revision_pares:'', fecha:'', titulo:'',tipo:'',issn:'',impacto:'' });
-  const minFechaPermitida = '2012-01-01';
-  const maxFechaPermitida = '2023-07-31';
+  const minFechaPermitida = '1950-01-01';
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  const maxFechaPermitida = `${year}-${month}-${day}`;
   let fechaValida=true;
 
   useLayoutEffect(()=> {
@@ -120,6 +123,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                 label="Autores"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 100 }}
                                 margin="normal"
                                 defaultValue={publicacion.autores}
                                 onChange={inputChange}
@@ -129,6 +133,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                 label="Publicador"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 50 }}
                                 margin="normal"
                                 defaultValue={publicacion.publicador}
                                 onChange={inputChange}
@@ -138,6 +143,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                 label="Título de la Publicación"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 200 }}
                                 margin="normal"
                                 defaultValue={publicacion.titulo}
                                 onChange={inputChange}
@@ -169,6 +175,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                 label="ISSN/ISBN/DOI"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 20 }}
                                 margin="normal"
                                 defaultValue={publicacion.issn}
                                 onChange={inputChange}
@@ -285,7 +292,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                     alignItems="center"
                     style={{padding:'15px'}}
                     >
-                    <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar información</Button>
+                    <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar información</Button>
                     </Box>
                     {formularioVisible && (
                       <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#f5f5f5', borderRadius: '10px' }} >
@@ -300,6 +307,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                       label="autores"
                                       variant="outlined"
                                       fullWidth
+                                      inputProps={{ maxLength: 100 }}
                                       margin="normal"
                                       onChange={inputChange}
                                       style={{ width: '100%' }} />
@@ -308,6 +316,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                       label="publicador"
                                       variant="outlined"
                                       fullWidth
+                                      inputProps={{ maxLength: 50 }}
                                       margin="normal"
                                       onChange={inputChange}
                                       style={{ width: '100%' }} />
@@ -316,6 +325,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                       label="Título de la Publicación"
                                       variant="outlined"
                                       fullWidth
+                                      inputProps={{ maxLength: 200 }}
                                       margin="normal"
                                       onChange={inputChange}
                                       style={{ width: '100%' }} />
@@ -343,6 +353,7 @@ const Publicacion = ({ user, countries, roles, tipo_doc }) => {
                                       name='issn'
                                       label="ISSN/ISBN/DOI"
                                       variant="outlined"
+                                      inputProps={{ maxLength: 20 }}
                                       fullWidth
                                       margin="normal"
                                       onChange={inputChange}
