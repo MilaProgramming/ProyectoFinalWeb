@@ -1,7 +1,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -10,7 +9,6 @@ import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 
 import axios from 'axios';
 import { Grid } from '@mui/material';
-const imagenes = require.context('../../../backend_API/src/images', true);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,11 +25,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '7px',
         backgroundColor: '#EAEAEA '
 
-    },
-
-    formContainer: {
-        flex: 1,
-        padding: '1rem 2rem',
     },
 
     avatarContainer: {
@@ -55,7 +48,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [formularioVisible, setFormularioVisible] = useState(false);
   const [body, setBody] = useState({ nombres: '', apellidos: '', tipo_documento: '', numero_documento:'', parentesco:'',provincia:'', canton:'',parroquia:'', calle_principal:'', numero_casa:'',numero_referencia:'', telefono_domicilio:'', telefono_celular:'' });
-
+  let numeroValido = true;
 
   useLayoutEffect(()=> {
     
@@ -70,16 +63,19 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
   }, []);
 
   const actualizarContacto = (id_contacto) => {
-
+    if(numeroValido ===false){
+        alert('Número inválido')
+    }else{
     axios.put(`http://localhost:8000/contacto_emergencia/${id_contacto}`, body);
+    }
     
   };
   const insertarContacto =() =>{  
-    if(body.nombres === '' || body.apellidos=== '' || body.tipo_documento=== ''|| body.numero_documento === '' ||body.parentesco===''||body.provincia===''||body.canton===''|| body.parroquia === ''||body.calle_principal===''||body.numero_casa===''||body.numero_referencia===''||body.telefono_domicilio===''||body.telefono_celular===''){
-      alert('Complete los campos');
+    if(body.nombres === '' || body.apellidos=== '' || body.tipo_documento=== ''|| body.numero_documento === '' ||body.parentesco===''||body.provincia===''||body.canton===''|| body.parroquia === ''||body.calle_principal===''||body.numero_casa===''||body.numero_referencia===''||body.telefono_domicilio===''||body.telefono_celular===''||numeroValido===false){
+      !numeroValido ? alert('Número inválido'): alert('Complete los campos');
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
-    axios.post(`http://localhost:8000/contactos_emergencia/${id_docente}`, body);
+    axios.post(`http://localhost:8000/contacto_emergencia/${id_docente}`, body);
     window.location.reload();
     setFormularioVisible(false);  
     }
@@ -98,6 +94,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
         [name]: value
     })
     }
+    
 
   }
   const asignarDatos = (docente) => {
@@ -108,6 +105,11 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
     }
 
   }
+  const validarNumeros = () =>{
+    if(body.numero_documento.length>10 || body.telefono_celular.length>10||body.telefono_domicilio.length>10){
+        numeroValido = false;
+    }
+}
 
     return (
 
@@ -129,6 +131,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             label="Nombres"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 50 }}
                             margin="normal"
                             defaultValue={contacto.nombres}
                             onChange={inputChange}
@@ -138,6 +141,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             label="Apeliidos"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 50 }}
                             margin="normal"
                             defaultValue={contacto.apellidos}
                             onChange={inputChange}
@@ -151,7 +155,9 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             margin="normal"
                             defaultValue={contacto.telefono_domicilio}
                             onChange={inputChange}
-                            style={{ width: '90%' }} />
+                            style={{ width: '90%' }} 
+                            type='number'
+                            inputProps={{ maxLength: 10 }}/>
                         <TextField
                             name='telefono_celular'
                             label="Teléfono celular"
@@ -160,12 +166,14 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             margin="normal"
                             defaultValue={contacto.telefono_celular}
                             onChange={inputChange}
+                            type='number'
                             style={{ width: '90%' }} />
                         <TextField
                             name='numero_referencia'
                             label="Referencia del domicilio"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 20 }}
                             margin="normal"
                             defaultValue={contacto.numero_referencia}
                             onChange={inputChange}
@@ -175,6 +183,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             label="Calle Principal"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 20 }}
                             margin="normal"
                             defaultValue={contacto.calle_principal}
                             onChange={inputChange}
@@ -184,6 +193,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             label="Parroquia"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 30 }}
                             margin="normal"
                             defaultValue={contacto.parroquia}
                             onChange={inputChange}
@@ -213,6 +223,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                                 margin="normal"
                                 defaultValue={contacto.numero_documento}
                                 onChange={inputChange}
+                                type='number'
                                 style={{ width: '90%' }} />
 
                             <Typography variant="subtitle1">Parentesco:</Typography>
@@ -259,12 +270,14 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                             margin="normal"
                             defaultValue={contacto.canton}
                             onChange={inputChange}
+                            inputProps={{ maxLength: 30 }}
                             style={{ width: '90%' }} />
                             <TextField
                             name='numero_casa'
                             label="Número de casa"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 8 }}
                             margin="normal"
                             defaultValue={contacto.numero_casa}
                             onChange={inputChange}
@@ -279,7 +292,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
         display="flex"
         marginBottom={'15px'}
         >
-        <Button variant="contained" color="success" onClick={() => { asignarDatos(contacto);actualizarContacto(contacto.id_contacto)}}>Actualizar</Button>
+        <Button variant="contained" color="success" onClick={() => { asignarDatos(contacto);validarNumeros();actualizarContacto(contacto.id_contacto)}}>Actualizar</Button>
         
         <Button style={{marginLeft:"15px"}} variant="contained" color="success" onClick={() => { eliminarContacto(contacto.id_contacto);window.location.reload();}}>Eliminar</Button>
         </Box>
@@ -293,7 +306,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar información</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar información</Button>
         </Box>
         {formularioVisible && (
           <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#f5f5f5', borderRadius: '10px' }} >
@@ -307,6 +320,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Nombres"
                       variant="outlined"
                       fullWidth
+                      inputProps={{ maxLength: 50 }}
                       margin="normal"
                       onChange={inputChange}
                       style={{ width: '90%' }} />
@@ -315,6 +329,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Apeliidos"
                       variant="outlined"
                       fullWidth
+                      inputProps={{ maxLength: 50 }}
                       margin="normal"
                       onChange={inputChange}
                       style={{ width: '90%' }} />
@@ -324,6 +339,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Teléfono de domicilio"
                       variant="outlined"
                       fullWidth
+                      type='number'
                       margin="normal"
                       onChange={inputChange}
                       style={{ width: '90%' }} />
@@ -332,6 +348,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Teléfono celular"
                       variant="outlined"
                       fullWidth
+                      type='number'
                       margin="normal"
                       onChange={inputChange}
                       style={{ width: '90%' }} />
@@ -340,6 +357,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Referencia del domicilio"
                       variant="outlined"
                       fullWidth
+                      inputProps={{ maxLength: 20 }}
                       margin="normal"
                       onChange={inputChange}
                       style={{ width: '90%' }} />
@@ -349,6 +367,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       variant="outlined"
                       fullWidth
                       margin="normal"
+                      inputProps={{ maxLength: 20 }}
                       onChange={inputChange}
                       style={{ width: '90%' }} />
                       <TextField
@@ -356,6 +375,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Parroquia"
                       variant="outlined"
                       fullWidth
+                      inputProps={{ maxLength: 30 }}
                       margin="normal"
                       onChange={inputChange}
       style={{ width: '90%' }} />
@@ -380,6 +400,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                           label="Número de documento"
                           variant="outlined"
                           fullWidth
+                          type='number'
                           margin="normal"
                           onChange={inputChange}
                           style={{ width: '90%' }} />
@@ -423,6 +444,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       label="Cantón"
                       variant="outlined"
                       fullWidth
+                      inputProps={{ maxLength: 30 }}
                       margin="normal"
                       onChange={inputChange}
                       style={{ width: '90%' }} />
@@ -430,6 +452,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
                       name='numero_casa'
                       label="Número de casa"
                       variant="outlined"
+                      inputProps={{ maxLength: 8 }}
                       fullWidth
                       margin="normal"
                       onChange={inputChange}
@@ -444,7 +467,7 @@ const ContactoEmergencia = ({ user, countries, roles, tipo_doc }) => {
   display="flex"
   marginBottom={'15px'}
   >
-  <Button variant="contained" color="success" onClick={() => { insertarContacto()}}>Agregar</Button>
+  <Button variant="contained" color="success" onClick={() => { validarNumeros();insertarContacto()}}>Agregar</Button>
   
   </Box>
           </Grid>
