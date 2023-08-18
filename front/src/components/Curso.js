@@ -2,7 +2,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -11,7 +10,6 @@ import SchoolIcon from '@mui/icons-material/School';
 
 import axios from 'axios';
 import { Grid } from '@mui/material';
-const imagenes = require.context('../../../backend_API/src/images', true);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,8 +30,13 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [formularioVisible, setFormularioVisible] = useState(false);
   const [body, setBody] = useState({ nombre_curso: '', institucion: '', pais: '', anio:'', fecha_inicial:'',fecha_final:'', tipo_certificado:'', horas:'' });
-  const minFechaPermitida = '2012-01-01';
-  const maxFechaPermitida = '2023-07-31';
+  const minFechaPermitida = '1950-01-01';
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  const maxFechaPermitida = `${year}-${month}-${day}`;
   let fechaValida=true;
 
   useLayoutEffect(()=> {
@@ -95,13 +98,12 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
 
   }
   const validarFecha = () => {
-    if(body.fecha_inicial>maxFechaPermitida || body.fecha_inicial<minFechaPermitida || body.fecha_final>maxFechaPermitida || body.fecha_final<minFechaPermitida || body.fecha_inicial===''||body.fecha_final===''){
+    if(body.fecha_inicial>maxFechaPermitida || body.fecha_inicial<minFechaPermitida || body.fecha_final>maxFechaPermitida || body.fecha_final<minFechaPermitida || body.fecha_inicial===''||body.fecha_final===''||body.fecha_inicial>body.fecha_final){
       fechaValida=false;
      }
   }
   const currentYear = new Date().getFullYear();
     const years = Array.from({ length: 10 }, (_, index) => (currentYear - index).toString());
-    const [value, setValue] = useState(0);
 
     return (
 
@@ -127,6 +129,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                                 label="Nombre del Curso"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 150 }}
                                 margin="normal"
                                 defaultValue={curso.nombre_curso}
                                 onChange={inputChange}
@@ -136,6 +139,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                                 label="Institución"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 50 }}
                                 margin="normal"
                                 defaultValue={curso.institucion}
                                 onChange={inputChange}
@@ -145,6 +149,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                                 label="País"
                                 variant="outlined"
                                 fullWidth
+                                inputProps={{ maxLength: 30 }}
                                 margin="normal"
                                 defaultValue={curso.pais}
                                 onChange={inputChange}
@@ -219,7 +224,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                                 label="Número de horas"
                                 type="number"
                                 name='horas'
-                                InputProps={{ inputProps: { min: 0 } }}
+                                InputProps={{ inputProps: { min: 8 } }}
                                 onChange={inputChange}
                                 style={{ paddingBottom: "15px", marginTop: 5, width: '100%' }}
                             />
@@ -245,7 +250,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar información</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)} >Agregar información</Button>
         </Box>
         {formularioVisible && (
             <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#f5f5f5', borderRadius: '10px' }} >
@@ -261,6 +266,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                             label="Nombre del Curso"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 150 }}
                             margin="normal"
                             onChange={inputChange}
                             style={{ width: '100%' }} />
@@ -269,6 +275,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                             label="Institución"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 50 }}
                             margin="normal"
                             onChange={inputChange}
                             style={{ width: '100%' }} />
@@ -277,6 +284,7 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                             label="País"
                             variant="outlined"
                             fullWidth
+                            inputProps={{ maxLength: 30 }}
                             margin="normal"
                             onChange={inputChange}
                             style={{ width: '100%' }} />
@@ -345,7 +353,8 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
                             label="Número de horas"
                             type="number"
                             name='horas'
-                            InputProps={{ inputProps: { min: 0 } }}
+                            defaultValue={8}
+                            InputProps={{ inputProps: { min: 8 } }}
                             onChange={inputChange}
                             style={{ paddingBottom: "15px", marginTop: 5, width: '100%' }}
                         />
