@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import { Grid } from '@mui/material';
 import axios from 'axios';
 const imagenes = require.context('../../../backend_API/src/images', true);
@@ -56,9 +55,11 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
   const [formularioDatos, setFormularioDatos] = useState(false);
   const [docentes, setDocentes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const minFechaPermitida = '2012-01-01';
-  const maxFechaPermitida = '2023-07-31';
+  const minFechaPermitida = '1950-01-01';
+  const maxFechaPermitida = '2004-01-01';
   let fechaValida = true;
+  let numeroValido = true;
+  let correoValido = true;
 
   const handleFile = (e) => {
     setFile(e.target.files[0])
@@ -74,8 +75,8 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
     setFormularioVisible(false)
   }
   const insertarInformacion =() =>{  
-    if(body.tipo_documento=== ''|| body.numero_documento=== ''|| body.genero=== '', body.estado_civil=== ''|| body.nacionalidad=== ''|| body.etnia=== ''|| body.nombre=== ''|| body.apellido=== ''|| body.ciudad_residencia=== ''|| body.provincia=== ''|| body.direccion=== ''|| body.correo_electronico=== ''|| body.correo_alterno=== '', body.tipo_sangre=== '', body.numero_telefono=== ''||body.enfermedad_catastrofica===''|| fechaValida=== false ){
-      !fechaValida? alert('Fecha inválida'):alert('Complete los campos');
+    if(body.tipo_documento=== ''|| body.numero_documento=== ''|| body.genero=== '', body.estado_civil=== ''|| body.nacionalidad=== ''|| body.etnia=== ''|| body.nombre=== ''|| body.apellido=== ''|| body.ciudad_residencia=== ''|| body.provincia=== ''|| body.direccion=== ''|| body.correo_electronico=== ''|| body.correo_alterno=== '', body.tipo_sangre=== '', body.numero_telefono=== ''||body.enfermedad_catastrofica===''|| fechaValida=== false ||numeroValido===false || correoValido===false ){
+      !fechaValida? alert('Fecha inválida'):(!numeroValido ? alert('Número inválido') : (!correoValido ? alert('Correo inválido'):alert('Complete los campos')));
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
     axios.post(`http://localhost:8000/docentes/${id_docente}`, body);
@@ -86,11 +87,12 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
     
   }
   const actualizarDocente = () => {
-    if (fechaValida === false) {
-      alert('Fecha invalida');
+    if (fechaValida === false || numeroValido === false || correoValido ===false) {
+      !fechaValida ? alert('Fecha invalida'): (!correoValido? alert('Correo inválido') : alert('Número inválido '));
     } else {
       const id_docente = localStorage.getItem("id_docente");
       axios.put(`http://localhost:8000/docente/${id_docente}`, body);
+      window.location.reload()
     }
   };
   const inputChange = ({ target }) => {
@@ -121,6 +123,23 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
       }
     }
   }
+  const validarNumeros=()=>{
+    if(body.numero_telefono.length>10||body.numero_documento.length>10){
+      numeroValido=false;
+      console.log(body.numero_telefono.length)
+      console.log(body.numero_documento.length)
+
+    }
+  }
+  const validarCorreo = () => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const isValidEmail = emailPattern.test(body.correo_electronico);
+    const isValidEmailAlterno = emailPattern.test(body.correo_alterno);
+    if(!isValidEmail || !isValidEmailAlterno){
+      correoValido =false;
+
+    }
+  }
   useLayoutEffect(() => {
     const id_docente = localStorage.getItem("id_docente");;
     console.log(id_docente);
@@ -129,7 +148,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
       
 
     });
-    if(docentes.length != 0){ 
+    if(docentes.length !== 0){ 
       setIsLoading(false);
       setFormularioDatos(false)  ;
     }else{
@@ -215,6 +234,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                inputProps={{ maxLength: 50 }}
                 defaultValue={docentes[0].nombre}
                 onChange={inputChange}
               />
@@ -225,6 +245,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                inputProps={{ maxLength: 50 }}
                 defaultValue={docentes[0].apellido}
                 onChange={inputChange}
               />
@@ -247,7 +268,9 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 margin="normal"
                 defaultValue={docentes[0].numero_documento}
                 onChange={inputChange}
+                type="number" 
               />
+
 
               <Typography variant="subtitle1">Género:</Typography>
               <Autocomplete
@@ -274,6 +297,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                inputProps={{ maxLength: 20 }}
                 defaultValue={docentes[0].nacionalidad}
                 onChange={inputChange}
               />
@@ -284,7 +308,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
               <Autocomplete
                 label='etnia'
                 name='etnia'
-                options={['Indígena', 'Mestizo', 'Afroecuatoriano', 'Montubio', 'Blancos']}
+                options={['Indígena(Awá)','Indígena(Chachi)','Indígena(Epera)','Indígena(Tsáchila)', 'Indígena(Ai Cofán)','Indígena(Secoya)','Indígena(Siona)','Indígena(Huaorani)','Indígena(Shiwiar)','Indígena(Zápara)','Indígena(Achuar)','Indígena(Shuar)','Indígena(Kichwa)','Indígena(Pueblo Manta)','Indígena(Pueblo Huancavilca)','Indígena(Pueblo Puná)', 'Mestizo', 'Afroecuatoriano', 'Montubio', 'Blanco']}
                 defaultValue={docentes[0].etnia}
                 renderInput={(params) => <TextField {...params} variant="outlined" />}
                 onChange={(event, value) => body.etnia = value}
@@ -311,26 +335,37 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
               <TextField
                 label="Ciudad de Residencia"
                 name='ciudad_residencia'
+                inputProps={{ maxLength: 30 }}
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 defaultValue={docentes[0].ciudad_residencia}
                 onChange={inputChange}
               />
-              <TextField
-                label="Provincia"
+              <Typography variant="subtitle1">Provincia:</Typography>
+              <Autocomplete
+                options={['Azuay', 'Bolivar', 'Cañar', 'Carchi', 'Chimborazo',
+                  'Cotopaxi', 'El Oro', 'Esmeraldas',
+                  'Galápagos', 'Guayas', 'Imbabura', 'Loja', 'Los Ríos',
+                  'Manabí', 'Morona Santiago',
+                  'Napo', 'Orellana', 'Pastaza', 'Pichincha', 'Santa Elena',
+                  'Santo Domingo de los Tsáchilas', 'Sucumbios', 'Tungurahua','Zamora Chinchipe'
+
+                ]}
                 name='provincia'
-                variant="outlined"
-                fullWidth
-                margin="normal"
                 defaultValue={docentes[0].provincia}
-                onChange={inputChange}
+                margin="auto"
+                fullWidth
+                style={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => inputChange({ target: { name: 'provincia', value } })}
               />
               <TextField
                 label="Dirección"
                 name='direccion'
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 100 }}
                 margin="normal"
                 defaultValue={docentes[0].direccion}
                 onChange={inputChange}
@@ -340,6 +375,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 name='correo_electronico'
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 50 }}
                 margin="normal"
                 defaultValue={docentes[0].correo_electronico}
                 onChange={inputChange}
@@ -349,6 +385,8 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 name='correo_alterno'
                 variant="outlined"
                 fullWidth
+                type='email'
+                inputProps={{ maxLength: 50 }}
                 margin="normal"
                 defaultValue={docentes[0].correo_alterno}
                 onChange={inputChange}
@@ -362,6 +400,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
                 margin="normal"
                 defaultValue={docentes[0].numero_telefono}
                 onChange={inputChange}
+                type="number"
               />
               <Typography variant="subtitle1">Tipo de sangre:</Typography>
               <Autocomplete
@@ -397,7 +436,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
               justifyContent="center"
               alignItems="center"
             >
-              <Button variant="contained" color="success" onClick={() => { asignarDatos(docentes[0]); validarFecha(); actualizarDocente(); window.location.reload() }}>Actualizar Datos</Button>
+              <Button variant="contained" color="success" onClick={() => { asignarDatos(docentes[0]);validarNumeros();validarCorreo(); validarFecha(); actualizarDocente(); }}>Actualizar Datos</Button>
             </Box>
           </Grid>
         </Grid>
@@ -419,6 +458,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             name='nombre'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 50 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -428,6 +468,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             name='apellido'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 50 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -448,6 +489,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             fullWidth
             margin="normal"
             onChange={inputChange}
+            type="number"
           />
 
           <Typography variant="subtitle1">Género:</Typography>
@@ -472,6 +514,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             name='nacionalidad'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 20 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -482,7 +525,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
           <Autocomplete
             label='etnia'
             name='etnia'
-            options={['Indígena', 'Mestizo', 'Afroecuatoriano', 'Montubio', 'Blancos']}
+            options={['Indígena(Awá)','Indígena(Chachi)','Indígena(Epera)','Indígena(Tsáchila)', 'Indígena(Ai Cofán)','Indígena(Secoya)','Indígena(Siona)','Indígena(Huaorani)','Indígena(Shiwiar)','Indígena(Zápara)','Indígena(Achuar)','Indígena(Shuar)','Indígena(Kichwa)','Indígena(Pueblo Manta)','Indígena(Pueblo Huancavilca)','Indígena(Pueblo Puná)', 'Mestizo', 'Afroecuatoriano', 'Montubio', 'Blanco']}
             renderInput={(params) => <TextField {...params} variant="outlined" />}
             onChange={(event, value) => body.etnia = value}
 
@@ -508,22 +551,33 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             name='ciudad_residencia'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 30 }}
             margin="normal"
             onChange={inputChange}
           />
-          <TextField
-            label="Provincia"
-            name='provincia'
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            onChange={inputChange}
-          />
+           <Typography variant="subtitle1">Provincia:</Typography>
+              <Autocomplete
+                options={['Azuay', 'Bolivar', 'Cañar', 'Carchi', 'Chimborazo',
+                  'Cotopaxi', 'El Oro', 'Esmeraldas',
+                  'Galápagos', 'Guayas', 'Imbabura', 'Loja', 'Los Ríos',
+                  'Manabí', 'Morona Santiago',
+                  'Napo', 'Orellana', 'Pastaza', 'Pichincha', 'Santa Elena',
+                  'Santo Domingo de los Tsáchilas', 'Sucumbios', 'Tungurahua','Zamora Chinchipe'
+
+                ]}
+                name='provincia'
+                margin="auto"
+                fullWidth
+                style={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => inputChange({ target: { name: 'provincia', value } })}
+              />
           <TextField
             label="Dirección"
             name='direccion'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 100 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -532,6 +586,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             name='correo_electronico'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 50 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -540,6 +595,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             name='correo_alterno'
             variant="outlined"
             fullWidth
+            inputProps={{ maxLength: 50 }}
             margin="normal"
             onChange={inputChange}
           />
@@ -551,6 +607,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
             fullWidth
             margin="normal"
             onChange={inputChange}
+            type="number"
           />
           <Typography variant="subtitle1">Tipo de sangre:</Typography>
           <Autocomplete
@@ -584,7 +641,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
           justifyContent="center"
           alignItems="center"
         >
-          <Button variant="contained" color="success" onClick={() => { validarFecha();insertarInformacion(); }}>Actualizar Datos</Button>
+          <Button variant="contained" color="success" onClick={() => { validarNumeros();validarFecha();validarCorreo();insertarInformacion(); }}>Actualizar Datos</Button>
         </Box>
       </Grid>
     </Grid>
