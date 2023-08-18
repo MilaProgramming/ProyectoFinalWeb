@@ -1,7 +1,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -11,7 +10,6 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 import axios from 'axios';
 import { Grid } from '@mui/material';
-const imagenes = require.context('../../../backend_API/src/images', true);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '7px',
         backgroundColor: '#EAEAEA '
 
-    },
-
-    formContainer: {
-        flex: 1,
-        padding: '1rem 2rem',
     },
 
     avatarContainer: {
@@ -55,7 +48,10 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
   const [infBancaria,setInfBancaria] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [formularioVisible, setFormularioVisible] = useState(false);
-
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [showCustomInputNew, setShowCustomInputNew] = useState(false);
+  const [id,setId] = useState("");
+  let numeroValido = true;
 
 
 
@@ -71,11 +67,15 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
   }, []);
 
   const actualizarInformacionBancaria = (id_inf_bancaria) => {
+    if(numeroValido===false){
+      alert('Número de cuenta invalido')
+    }else{
     axios.put(`http://localhost:8000/informacion_bancaria/${id_inf_bancaria}`, body);
+    }
   };
   const insertarInformacion =() =>{  
-    if(body.tipo_institucion === '' || body.nombre_institucion=== '' || body.tipo_cuenta=== ''|| body.numero_cuenta === '' ){
-      alert('Complete los campos');
+    if(body.tipo_institucion === '' || body.nombre_institucion=== '' || body.tipo_cuenta=== ''|| body.numero_cuenta === '' ||numeroValido===false){
+      !numeroValido?alert('Número de cuenta inválido') :alert('Complete los campos');
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
     axios.post(`http://localhost:8000/informacion_bancaria/${id_docente}`, body);
@@ -107,6 +107,45 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
       }
     }
 
+  }
+  const handleAutocompleteChange = (event,value,id) => {
+    if (value === 'otros') {
+      setShowCustomInput(true);
+      setId(id);
+    } else {
+      setShowCustomInput(false);
+      body.nombre_institucion= value;
+    }
+  };
+
+  const handleCustomInputChange = event => {
+    if(event.target.value===''){
+      alert('No deje campos vacíos')
+    }else{
+    body.nombre_institucion= event.target.value;
+    }
+  };
+  const handleAutocompleteChangeNew = (event, value) => {
+    if (value === 'otros') {
+      setShowCustomInputNew(true);
+     
+    } else {
+      setShowCustomInputNew(false);
+      body.nombre_institucion= value;
+    }
+  };
+
+  const handleCustomInputChangeNew = event => {
+    if(event.target.value===''){
+      alert('No deje campos vacíos')
+    }else{
+    body.nombre_institucion= event.target.value;
+    }
+  };
+  const validarNumeros=()=>{
+    if(body.numero_cuenta.length>15){
+      numeroValido=false;
+    }
   }
     return (
 
@@ -146,15 +185,21 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                                     'CITYBANK', 'COMERCIAL DE MANABÍ', 'COOPNACIONAL', 'DEL LITORAL', 'DELBANK S.A', 'ECUATORIANO DE LA VIVIENDA',
                                     'FOMENTO', 'GUAYAQUIL', 'INTERNACIONAL', 'LLOYDS BANK', 'LOJA', 'MACHALA',
                                     'MM JARAMILLO', 'PACÍFICO', 'PROAMERICA', 'PROCREDIT', 'PRODUBANCO', 'PICHINCHA',
-                                    'PROMERICA', 'RUMIÑANUI', 'SOLIDARIO', 'SUDAMERICANO', 'TERRITORIAL', 'UNIBANCO']}
+                                    'PROMERICA', 'RUMIÑANUI', 'SOLIDARIO', 'SUDAMERICANO', 'TERRITORIAL', 'UNIBANCO','otros']}
                                 name='nombre_institucion'
                                 defaultValue={informacion.nombre_institucion}
-                                margin="auto"
-                                fullWidth
-                                style={{ width: '100%' }}
                                 renderInput={(params) => <TextField {...params} variant="outlined" />}
-                                onChange={(event, value) => inputChange({ target: { name: 'nombre_institucion', value } })}
-                            />
+                                onChange={(event, value) => handleAutocompleteChange(event, value, informacion.id_inf_bancaria)}
+                                />
+                            <br/>
+                                {showCustomInput && informacion.id_inf_bancaria===id && (
+                                <TextField
+                                    label="Nombre de la Institución"
+                                    variant="outlined"
+                                    //value={customInstitucion}
+                                    onChange={handleCustomInputChange}
+                                />
+                                )}
                         
 
                             <Typography variant="subtitle1">Tipo de Cuenta:</Typography>
@@ -178,13 +223,14 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                                 margin="normal"
                                 defaultValue={informacion.numero_cuenta}
                                 onChange={inputChange}
+                                type="number"
                                 style={{ width: '100%' }} />
                         </Box>
 
                     </Grid>
 
                     <Grid item xs={12} sx={{ padding: 1, textAlign: 'center' }}  >
-                        <Button style={{ marginLeft: "15px" }} variant="contained" color="success" onClick={() => {asignarDatos(informacion);actualizarInformacionBancaria(infBancaria[0].id_inf_bancaria);window.location.reload()}} >Actualizar</Button>
+                        <Button style={{ marginLeft: "15px" }} variant="contained" color="success" onClick={() => {asignarDatos(informacion);validarNumeros();actualizarInformacionBancaria(infBancaria[0].id_inf_bancaria);window.location.reload()}} >Actualizar</Button>
                         <Button style={{marginLeft:"15px"}} variant="contained" color="success" onClick={() => { eliminarInformacion(informacion.id_inf_bancaria);window.location.reload();}}>Eliminar</Button>
 
                         
@@ -198,7 +244,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar informacion</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar informacion</Button>
         </Box>
         {formularioVisible && (
           <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#fff', borderRadius: '10px' }} >
@@ -225,18 +271,24 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
 
                       <Typography variant="subtitle1">Nombre de Institución financiera:</Typography>
                       <Autocomplete
-                          options={['AUSTRO', 'AMAZONAS', 'BANECUADOR', 'BOLIVARIANO', 'CAPITAL S.A CORFINSA', 'CENTRAL',
-                              'CITYBANK', 'COMERCIAL DE MANABÍ', 'COOPNACIONAL', 'DEL LITORAL', 'DELBANK S.A', 'ECUATORIANO DE LA VIVIENDA',
-                              'FOMENTO', 'GUAYAQUIL', 'INTERNACIONAL', 'LLOYDS BANK', 'LOJA', 'MACHALA',
-                              'MM JARAMILLO', 'PACÍFICO', 'PROAMERICA', 'PROCREDIT', 'PRODUBANCO', 'PICHINCHA',
-                              'PROMERICA', 'RUMIÑANUI', 'SOLIDARIO', 'SUDAMERICANO', 'TERRITORIAL', 'UNIBANCO']}
-                          name='nombre_institucion'
-                          margin="auto"
-                          fullWidth
-                          style={{ width: '100%' }}
-                          renderInput={(params) => <TextField {...params} variant="outlined" />}
-                          onChange={(event, value) => inputChange({ target: { name: 'nombre_institucion', value } })}
-                      />
+                                options={['AUSTRO', 'AMAZONAS', 'BANECUADOR', 'BOLIVARIANO', 'CAPITAL S.A CORFINSA', 'CENTRAL',
+                                    'CITYBANK', 'COMERCIAL DE MANABÍ', 'COOPNACIONAL', 'DEL LITORAL', 'DELBANK S.A', 'ECUATORIANO DE LA VIVIENDA',
+                                    'FOMENTO', 'GUAYAQUIL', 'INTERNACIONAL', 'LLOYDS BANK', 'LOJA', 'MACHALA',
+                                    'MM JARAMILLO', 'PACÍFICO', 'PROAMERICA', 'PROCREDIT', 'PRODUBANCO', 'PICHINCHA',
+                                    'PROMERICA', 'RUMIÑANUI', 'SOLIDARIO', 'SUDAMERICANO', 'TERRITORIAL', 'UNIBANCO','otros']}
+                                name='nombre_institucion'
+                                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                                onChange={(event, value) => handleAutocompleteChangeNew(event, value)}
+                                />
+                            <br/>
+                                {showCustomInputNew && (
+                                <TextField
+                                    label="Nombre de la Institución"
+                                    variant="outlined"
+                                    //value={customInstitucion}
+                                    onChange={handleCustomInputChangeNew}
+                                />
+                                )}
                   
 
                       <Typography variant="subtitle1">Tipo de Cuenta:</Typography>
@@ -258,13 +310,14 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                           fullWidth
                           margin="normal"
                           onChange={inputChange}
+                          type="number"
                           style={{ width: '100%' }} />
                   </Box>
 
               </Grid>
 
               <Grid item xs={12} sx={{ padding: 1, textAlign: 'center' }}  >
-                  <Button variant="contained" color="success" onClick={() => { insertarInformacion()}}>Agregar</Button>
+                  <Button variant="contained" color="success" onClick={() => { validarNumeros();insertarInformacion()}}>Agregar</Button>
 
                   
               </Grid>
