@@ -2,7 +2,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -11,7 +10,6 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 
 import axios from 'axios';
 import { Grid } from '@mui/material';
-const imagenes = require.context('../../../backend_API/src/images', true);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,10 +28,6 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-  formContainer: {
-    flex: 1,
-    padding: '1rem 2rem',
-  },
 
   avatarContainer: {
     flex: 1,
@@ -56,8 +50,13 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [formularioVisible, setFormularioVisible] = useState(false);
   const [body, setBody] = useState({ empresa: '', unidad_empresa: '', modalidad_contratacion: '', motivo_salida:'', pais:'',tipo_institucion:'', puesto:'', descripcion:'', fecha_inicio:'',fecha_fin:'',provincia:'' });
-  const minFechaPermitida = '2012-01-01';
-  const maxFechaPermitida = '2023-07-31';
+  const minFechaPermitida = '1950-01-01';
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  const maxFechaPermitida = `${year}-${month}-${day}`;
   let fechaValida=true;
 
   useLayoutEffect(()=> {
@@ -119,7 +118,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
 
   }
   const validarFecha = () => {
-    if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_fin>maxFechaPermitida || body.fecha_fin<minFechaPermitida || body.fecha_inicio===''||body.fecha_fin===''){
+    if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_fin>maxFechaPermitida || body.fecha_fin<minFechaPermitida || body.fecha_inicio===''||body.fecha_fin===''||body.fecha_inicio>body.fecha_fin){
       fechaValida=false;
      }
   }
@@ -143,6 +142,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
               label="Nombre de la empresa"
               variant="outlined"
               fullWidth
+              inputProps={{ maxLength: 30 }}
               margin="normal"
               defaultValue={experiencia.empresa}
               onChange={inputChange}
@@ -152,6 +152,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
               label="Unidad de la empresa"
               variant="outlined"
               fullWidth
+              inputProps={{ maxLength: 30 }}
               margin="normal"
               defaultValue={experiencia.unidad_empresa}
               onChange={inputChange}
@@ -162,6 +163,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
               variant="outlined"
               fullWidth
               margin="normal"
+              inputProps={{ maxLength: 30 }}
               defaultValue={experiencia.pais}
               onChange={inputChange}
               style={{ width: '90%' }} />
@@ -170,6 +172,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
               label="Puesto"
               variant="outlined"
               fullWidth
+              inputProps={{ maxLength: 50 }}
               margin="normal"
               defaultValue={experiencia.puesto}
               onChange={inputChange}
@@ -180,6 +183,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
               variant="outlined"
               fullWidth
               margin="normal"
+              inputProps={{ maxLength: 200 }}
               defaultValue={experiencia.descripcion}
               onChange={inputChange}
               style={{ width: '90%' }} />
@@ -310,7 +314,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar información</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar información</Button>
         </Box>
         {formularioVisible && (
           <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#fff', borderRadius: '10px' }} >
@@ -324,6 +328,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                 label="Nombre de la empresa"
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 30 }}
                 margin="normal"
                 onChange={inputChange}
                 style={{ width: '90%' }} />
@@ -332,6 +337,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                 label="Unidad de la empresa"
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 30 }}
                 margin="normal"
                 onChange={inputChange}
                 style={{ width: '90%' }} />
@@ -340,6 +346,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                 label="País"
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 30 }}
                 margin="normal"
                 onChange={inputChange}
                 style={{ width: '90%' }} />
@@ -348,6 +355,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                 label="Puesto"
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 50 }}
                 margin="normal"
                 onChange={inputChange}
                 style={{ width: '90%' }} />
@@ -356,6 +364,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                 label="Descripción"
                 variant="outlined"
                 fullWidth
+                inputProps={{ maxLength: 200 }}
                 margin="normal"
                 onChange={inputChange}
                 style={{ width: '90%' }} />
