@@ -2,7 +2,6 @@
 import { React, useState, useLayoutEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -11,7 +10,6 @@ import LanguageIcon from '@mui/icons-material/Language';
 
 import axios from 'axios';
 import { Grid } from '@mui/material';
-const imagenes = require.context('../../../backend_API/src/images', true);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,12 +27,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#EAEAEA '
 
     },
-
-    formContainer: {
-        flex: 1,
-        padding: '1rem 2rem',
-    },
-
     avatarContainer: {
         flex: 1,
         borderRadius: '0.5rem',
@@ -215,7 +207,7 @@ const Idioma = () => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar idioma</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar idioma</Button>
         </Box>
         {formularioVisible && (
           <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#f5f5f5', borderRadius: '10px' }} >
