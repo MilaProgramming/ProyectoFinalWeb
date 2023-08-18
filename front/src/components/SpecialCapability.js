@@ -116,22 +116,20 @@ const SpecialCapability = () => {
           </Grid>
           <Grid item xs={12} sm={12} maxWidth="sm" width="90%" sx={{ padding: 1}} justifyContent="center" >
             <Box sx={{ width: '90%', margin: 'auto' }}>
-              <TextField
-                name='tipo_capacidad'
-                label="Tipo de Capacidad Especial"
-                variant="outlined"
-                fullWidth
-                margin="normal"
+            <Typography variant="subtitle1">Tipo de Capacidad Especial:</Typography>
+              <Autocomplete
+                options={['Auditiva', 'Visual', 'Para el uso del lenguaje', 'Física', 'Intelectual', 'Psicosocial', 'Múltiples']}
+                name='porcentaje'
                 defaultValue={capacidad.tipo_capacidad}
-                onChange={inputChange}
-                style={{ width: '100%' }} />
-
-
-
-
+                margin="normal"
+                fullWidth
+                style={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => inputChange({ target: { name: 'tipo_capacidad', value } })}
+              />
               <Typography variant="subtitle1">Porcentaje de Capacidad Especial:</Typography>
               <Autocomplete
-                options={['10', '20', '30', '40', '50', '60', '70', '80', '90', '100']}
+                options={['Leve(5-24%)', 'Moderada(25-49%)', 'Grave(50-74%)', 'Muy grave(75-95%)', 'Completa(95-100%)']}
                 name='porcentaje'
                 defaultValue={capacidad.porcentaje}
                 margin="normal"
@@ -149,6 +147,7 @@ const SpecialCapability = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                inputProps={{ maxLength: 15 }}
                 defaultValue={capacidad.numero_carnet}
                 onChange={inputChange}
                 style={{ width: '100%' }} />
@@ -181,7 +180,7 @@ const SpecialCapability = () => {
         alignItems="center"
         style={{padding:'15px'}}
         >
-        <Button variant="contained" color="success" onClick={() => {{setFormularioVisible(true)}}}>Agregar informacion</Button>
+        <Button variant="contained" color="success" onClick={() => setFormularioVisible(true)}>Agregar informacion</Button>
         </Box>
         {formularioVisible && (
           <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#fff', borderRadius: '10px' }} >
@@ -192,28 +191,26 @@ const SpecialCapability = () => {
             </Grid>
             <Grid item xs={12} sm={12} maxWidth="sm" width="90%" sx={{ padding: 1}} justifyContent="center" >
               <Box sx={{ width: '90%', margin: 'auto' }}>
-                <TextField
-                  name='tipo_capacidad'
-                  label="Tipo de Capacidad Especial"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  onChange={inputChange}
-                  style={{ width: '100%' }} />
-  
-  
-  
-  
-                <Typography variant="subtitle1">Porcentaje de Capacidad Especial:</Typography>
-                <Autocomplete
-                  options={['10', '20', '30', '40', '50', '60', '70', '80', '90', '100']}
-                  name='porcentaje'
-                  margin="normal"
-                  fullWidth
-                  style={{ width: '100%' }}
-                  renderInput={(params) => <TextField {...params} variant="outlined" />}
-                  onChange={(event, value) => inputChange({ target: { name: 'porcentaje', value } })}
-                />
+              <Typography variant="subtitle1">Tipo de Capacidad Especial:</Typography>
+              <Autocomplete
+                options={['Auditiva', 'Visual', 'Para el uso del lenguaje', 'Física', 'Intelectual', 'Psicosocial', 'Múltiples']}
+                name='porcentaje'
+                margin="normal"
+                fullWidth
+                style={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => inputChange({ target: { name: 'tipo_capacidad', value } })}
+              />
+              <Typography variant="subtitle1">Porcentaje de Capacidad Especial:</Typography>
+              <Autocomplete
+                options={['Leve(5-24%)', 'Moderada(25-49%)', 'Grave(50-74%)', 'Muy grave(75-95%)', 'Completa(95-100%)']}
+                name='porcentaje'
+                margin="normal"
+                fullWidth
+                style={{ width: '100%' }}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => inputChange({ target: { name: 'porcentaje', value } })}
+              />
   
   
   
@@ -223,6 +220,7 @@ const SpecialCapability = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
+                  inputProps={{ maxLength: 15 }}
                   onChange={inputChange}
                   style={{ width: '100%' }} />
                   <Box
