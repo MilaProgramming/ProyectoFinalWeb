@@ -25,22 +25,29 @@ const styles = StyleSheet.create({
       fontFamily: 'Helvetica',
     },
     title: {
-      fontSize: 18,
+      fontSize: 20,
       marginBottom: 10,
+      fontFamily: 'Helvetica-Bold',
       textAlign: 'center',
-      fontWeight:900
+      fontWeight:'bold'
     },
     subtitle: {
-      fontSize: 14,
-      marginBottom: 5,
+      fontSize: 16, // Valor numérico sin comillas
+      marginBottom: 5, // Valor numérico sin comillas
+      textAlign: 'center',
+      fontFamily: 'Helvetica-Bold',
+      fontWeight: 'bold', // Valor de cadena en comillas
+      color: '#333',
     },
+    
+    
     text: {
       fontSize: 12,
       marginBottom: 3,
     },
     image: {
-      width: 150,
-      height: 100,
+      width: 160,
+      height: 110,
       marginBottom: 10,
       alignSelf: 'center',
     },
@@ -104,10 +111,13 @@ const Formato1 = () => {
               {docentes.length > 0 && (
                 <>
                   <Text style={styles.title}>Hoja de Vida</Text>
+                  <Text> </Text> 
                   <Image
                     src={imagenes(`./${docentes[0].fotografia}`)}
                     style={styles.image}
                   />
+                  <Text> </Text> 
+
                   <Text style={styles.subtitle}>Datos Personales</Text>
                   <Text> </Text> 
                   <Text style={styles.text}>Nombre: {docentes[0].nombre}</Text>
@@ -119,13 +129,11 @@ const Formato1 = () => {
                   <Text style={styles.text}>Estado civil: {docentes[0].estado_civil}</Text>
                   <Text style={styles.text}>Nacionalidad: {docentes[0].nacionalidad}</Text>
                   <Text style={styles.text}>Etnia: {docentes[0].etnia}</Text>
-                  <Text style={styles.subtitle}>Información de Contacto</Text>
                   <Text style={styles.text}>Provincia: {docentes[0].provincia}</Text>
                   <Text style={styles.text}>Dirección: {docentes[0].direccion}</Text>
                   <Text style={styles.text}>Correo electrónico: {docentes[0].correo_electronico}</Text>
                   <Text style={styles.text}>Correo alternativo: {docentes[0].correo_alterno}</Text>
                   <Text style={styles.text}>Número de teléfono: {docentes[0].numero_telefono}</Text>
-                  <Text style={styles.subtitle}>Datos Médicos</Text>
                   <Text style={styles.text}>Tipo de sangre: {docentes[0].tipo_sangre}</Text>
                   <Text style={styles.text}>Enfermedad catastrófica: {docentes[0].enfermedad_catastrofica}</Text>
                   <Text style={styles.text}>Fecha de nacimiento: {docentes[0].fecha_nacimiento.substring(0, 10)}</Text>
@@ -144,7 +152,7 @@ const Formato1 = () => {
                 <Text style={styles.text}> Institución: {educacion.institucion}</Text>
                 <Text style={styles.text}> Título: {educacion.titulo}</Text>
                 <Text style={styles.text}> Nivel: {educacion.nivel}</Text>
-                <Text style={styles.text}> Número SENESCYT: {educacion.numero_senescyt}</Text>
+                <Text style={styles.text}> Número Senecyt: {educacion.numero_senescyt}</Text>
                 <Text style={styles.text}> Campo de Estudio: {educacion.campo_estudio}</Text>
                 <Text style={styles.text}> Fecha de Inicio: {educacion.fecha_inicio.substring(0,10)}</Text>
                 <Text style={styles.text}> Fecha de Graduación: {educacion.fecha_graduacion.substring(0,10)}</Text>
@@ -158,7 +166,7 @@ const Formato1 = () => {
               }
               {capacidades.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Capacidades especiales:</Text>
+                <Text style={styles.subtitle}>Capacidades especiales</Text>
                 {capacidades.map((capacidad) => {
                     return (
                 <>
@@ -173,7 +181,7 @@ const Formato1 = () => {
               }
               {infBancaria.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Información bancaria:</Text>
+                <Text style={styles.subtitle}>Información bancaria</Text>
                 {infBancaria.map((informacion) => {
                     return (
                 <>
@@ -190,7 +198,7 @@ const Formato1 = () => {
               }
               {expLaboral.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Experiencia laboral:</Text>
+                <Text style={styles.subtitle}>Experiencia laboral</Text>
                 {expLaboral.map((experiencia) => {
                     return (
                 <>
@@ -214,7 +222,7 @@ const Formato1 = () => {
               }
               {contactos.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Contacto de emergencia:</Text>
+                <Text style={styles.subtitle}>Contacto de emergencia</Text>
                 {contactos.map((contacto) => {
                     return (
                 <>
@@ -240,7 +248,7 @@ const Formato1 = () => {
               }
               {idiomas.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Idiomas:</Text>
+                <Text style={styles.subtitle}>Idiomas</Text>
                 {idiomas.map((idioma) => {
                     return (
                 <>
@@ -257,7 +265,7 @@ const Formato1 = () => {
               }
               {publicaciones.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Publicaciones:</Text>
+                <Text style={styles.subtitle}>Publicaciones</Text>
                 {publicaciones.map((publicacion) => {
                     return (
                 <>
@@ -282,7 +290,7 @@ const Formato1 = () => {
               }
               {cursos.length>0 &&(
                 <>
-                <Text style={styles.subtitle}>Cursos:</Text>
+                <Text style={styles.subtitle}>Cursos</Text>
                 {cursos.map((curso) => {
                     return (
                 <>
