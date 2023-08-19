@@ -73,14 +73,14 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
 
   const actualizarExperienciaLaboral = (id_exp_lab) => {
     if(fechaValida=== false){
-      alert('Fecha inválida')
+      alert('Fecha inválida:  La fecha de ingreso debe ser inferior a la fecha de salida')
     }else{
     axios.put(`http://localhost:8000/experiencia_laboral/${id_exp_lab}`, body);
     }
   };
   const insertarExperienciaLaboral =() =>{  
     if(body.empresa === '' || body.unidad_empresa=== '' || body.modalidad_contratacion=== ''|| body.motivo_salida === '' ||body.pais===''||body.tipo_institucion===''||body.puesto===''||body.descripcion===''||body.provincia ===''||fechaValida===false){
-      !fechaValida? alert('Fecha inválida'):alert('Complete los campos');
+      !fechaValida? alert('Fecha inválida: La fecha de ingreso debe ser inferior a la fecha de salida'):alert('Complete los campos');
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
     axios.post(`http://localhost:8000/experiencia_laboral/${id_docente}`, body);
