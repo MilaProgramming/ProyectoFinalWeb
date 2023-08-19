@@ -53,14 +53,14 @@ const Curso = ({ user, countries, roles, tipo_doc }) => {
 
   const actualizarCurso = (id_curso) => {
     if(fechaValida=== false){
-      alert('Fecha inválida')
+      alert('Fecha inválida: La fecha de inicio debe ser inferior a la fecha de finalización')
     }else{
     axios.put(`http://localhost:8000/curso/${id_curso}`, body);
     }
   };
   const insertarCurso =() =>{  
     if(body.nombre_curso === '' || body.pais=== '' || body.anio=== ''|| body.tipo_certificado === '' ||body.horas===''||fechaValida===false){
-      !fechaValida? alert('Fecha inválida'):alert('Complete los campos');
+      !fechaValida? alert('Fecha inválida:  La fecha de inicio debe ser inferior a la fecha de finalización'):alert('Complete los campos');
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
     axios.post(`http://localhost:8000/curso/${id_docente}`, body);
