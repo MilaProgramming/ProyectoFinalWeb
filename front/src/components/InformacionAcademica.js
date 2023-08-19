@@ -96,7 +96,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
 
   const actualizarEducacion = (id_educacion) => {
     if(fechaValida=== false|| numeroValido===false){
-      !numeroValido? alert('Número de Senecyt inválido') : alert('Fecha inválida');
+      !numeroValido? (body.numero_senescyt.length>20 ? alert('Número de Senecyt inválido'): alert('El número de años debe ser superior a 1')) : alert('Fecha inválida: La fecha de inicio debe ser inferior a la fecha de graduación, y esta a su vez debe ser inferior a la fecha de registro ');
     }else{
     axios.put(`http://localhost:8000/educacion/${id_educacion}`, body);
     setShowCustomInput(false);
@@ -104,7 +104,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
   };
   const insertarEducacion =() =>{  
     if(body.institucion === '' || body.titulo=== '' || body.nivel=== ''|| body.numero_senescyt === '' ||body.campo_estudio===''||body.pais===''||body.anios_estudio===''||fechaValida===false || numeroValido===false){
-      !fechaValida? alert('Fecha inválida'):(!numeroValido? alert('Número de Senecyt inválido'):alert('Complete los campos'));
+      !fechaValida? alert('Fecha inválida: La fecha de inicio debe ser inferior a la fecha de graduación, y esta a su vez debe ser inferior a la fecha de registro '):(!numeroValido? (body.numero_senescyt.length>20 ? alert('Número de Senecyt inválido'): alert('El número de años debe ser superior a 1')):alert('Complete los campos'));
     }else{
     const id_docente=localStorage.getItem("id_docente"); 
     axios.post(`http://localhost:8000/educacion/${id_docente}`, body);
@@ -148,7 +148,7 @@ const InformacionAcademica = ({ user, countries, roles }) => {
      }
   }
   const validarNumero = () => {
-    if(body.numero_senescyt.length>20){
+    if(body.numero_senescyt.length>20||body.anios_estudio<=0){
       numeroValido=false;
     }
   }
@@ -227,16 +227,15 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           defaultValue={docente.titulo}
           onChange={inputChange}
                   />
-        <TextField
-          name= 'nivel'
-          label="Nivel"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          inputProps={{ maxLength: 20 }}
-          defaultValue={docente.nivel}
-          onChange={inputChange}
-        />
+        <Typography variant="subtitle1">Nivel:</Typography>
+              <Autocomplete
+                options={['Nivel técnico superior','Nivel tecnológico superior', 'Grado', 'Especialización', 'Maestría', 'Doctorado(equivalente a PHD)']}
+                name='campo_estudio'
+                defaultValue={docente.nivel}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => body.nivel = value}
+
+              />
         <TextField
           name= 'numero_senescyt'
           label="N Senecyt"
@@ -247,16 +246,15 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           onChange={inputChange}
           type="number"
         />
-        <TextField
-          name='campo_estudio'
-          label="Campo de estudio"
-          variant="outlined"
-          fullWidth
-          inputProps={{ maxLength: 30 }}
-          margin="normal"
-          defaultValue={docente.campo_estudio}
-          onChange={inputChange}
-        />
+        <Typography variant="subtitle1">Campo de estudio:</Typography>
+              <Autocomplete
+                options={['Educación','Artes', 'Humanidades', 'Idiomas', 'Ciencias sociales y del comportamiento', 'Periodismo e información', 'Derecho', 'Educación comercial y administración', 'Ciencias biológicas y afines', 'Medio ambiente', 'Ciencias físicas','Matemáticas y estadística', 'Tecnologías de la información y comunicación', 'Ingeniería y profesiones afines', 'Industria y producción', 'Arquitectura y construcción','Agricultura', 'Silvicultura', 'Pesca', 'Veterinaria', 'Salud', 'Bienestar', 'Servicios personales', 'Servicios de protección', 'Servicios de seguridad', 'Servicio de transporte']}
+                name='campo_estudio'
+                defaultValue={docente.campo_estudio}
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => body.campo_estudio = value}
+
+              />
         <TextField
           name='pais'
           label="País"
@@ -272,8 +270,9 @@ const InformacionAcademica = ({ user, countries, roles }) => {
           label="Años de estudio"
           variant="outlined"
           fullWidth
-          inputProps={{ maxLength: 20 }}
+          inputProps={{ min: 0 }}
           margin="normal"
+          type='number'
           defaultValue={docente.anios_estudio}
           onChange={inputChange}
         />
@@ -361,16 +360,14 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             inputProps={{ maxLength: 50 }}
             onChange={inputChange}
           />
-          <TextField
-            name= 'nivel'
-            required
-            label="Nivel"
-            variant="outlined"
-            fullWidth
-            inputProps={{ maxLength: 20 }}
-            margin="normal"
-            onChange={inputChange}
-          />
+         <Typography variant="subtitle1">Nivel:</Typography>
+              <Autocomplete
+                options={['Nivel técnico superior','Nivel tecnológico superior', 'Grado', 'Especialización', 'Maestría', 'Doctorado(equivalente a PHD)']}
+                name='campo_estudio'
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => body.nivel = value}
+
+              />
           <TextField
             name= 'numero_senescyt'
             required
@@ -381,16 +378,14 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             onChange={inputChange}
             type="number"
           />
-          <TextField
-            name='campo_estudio'
-            required
-            label="Campo de estudio"
-            inputProps={{ maxLength: 30 }}
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            onChange={inputChange}
-          />
+          <Typography variant="subtitle1">Campo de estudio:</Typography>
+              <Autocomplete
+                options={['Educación','Artes', 'Humanidades', 'Idiomas', 'Ciencias sociales y del comportamiento', 'Periodismo e información', 'Derecho', 'Educación comercial y administración', 'Ciencias biológicas y afines', 'Medio ambiente', 'Ciencias físicas','Matemáticas y estadística', 'Tecnologías de la información y comunicación', 'Ingeniería y profesiones afines', 'Industria y producción', 'Arquitectura y construcción','Agricultura', 'Silvicultura', 'Pesca', 'Veterinaria', 'Salud', 'Bienestar', 'Servicios personales', 'Servicios de protección', 'Servicios de seguridad', 'Servicio de transporte']}
+                name='campo_estudio'
+                renderInput={(params) => <TextField {...params} variant="outlined" />}
+                onChange={(event, value) => body.campo_estudio = value}
+
+              />
           <TextField
             name='pais'
             required
@@ -407,8 +402,9 @@ const InformacionAcademica = ({ user, countries, roles }) => {
             label="Años de estudio"
             variant="outlined"
             fullWidth
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ min: 0 }}
             margin="normal"
+            type='number'
             onChange={inputChange}
           />
           <TextField
