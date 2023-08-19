@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
+import * as XLSX from 'xlsx';
 import axios from 'axios';
 const imagenes = require.context('../../../backend_API/src/images', true);
 
@@ -107,6 +108,38 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
     }
 
   }
+  const handleInputChange = (event) => {
+    const target = event.target
+    const value = target.value === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    const this2 = this
+    
+    let hojas = []
+    if(name === 'file'){
+      let reader = new FileReader()
+      reader.readAsArrayBuffer(target.files[0])
+      reader.onloadend = (e) => {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, {type:'array'});
+
+        workbook.SheetNames.forEach(function(sheetName){
+          var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+          hojas.push({
+            data: XL_row_object,
+            sheetName
+          }
+
+          )
+        })
+        console.log(hojas)
+        this2.setState({
+          selectedFileDocument : target.files[0],
+          hojas
+        })
+      }
+    }
+
+  }
   const validarFecha = () => {
     if (body.fecha_nacimiento > maxFechaPermitida || body.fecha_nacimiento < minFechaPermitida) {
       fechaValida = false;
@@ -157,7 +190,7 @@ const UserProfileCard = ({ user, countries, roles, tipo_doc }) => {
 
   }, []);
   return (
-
+    
     <div className={classes.root}>
 
       {docentes.length===0 ? (
