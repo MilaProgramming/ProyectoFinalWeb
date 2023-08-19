@@ -20,6 +20,8 @@ import Idioma from '../components/Idioma';
 import Publicacion from '../components/Publicacion';
 import Curso from '../components/Curso';
 import Formatos from '../components/Formatos';
+import ExcelInformaciónPersonal from '../datos_excel/informacionPersonal';
+
 const user = {
   name: 'Juana Banana',
   email: 'johndoe@example.com',
@@ -113,7 +115,8 @@ const CurriculumVitae = () => {
           <Tab label="Idioma" {...a11yProps(6)} sx={{fontFamily: 'poppins, sans-serif'}}/>
           <Tab label="Publicaciones Académicas" {...a11yProps(7)} sx={{fontFamily: 'poppins, sans-serif'}}/>
           <Tab label="Cursos" {...a11yProps(8)} sx={{fontFamily: 'poppins, sans-serif'}}/>
-          <Tab label="..." {...a11yProps(9)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="Subir datos" {...a11yProps(9)} sx={{fontFamily: 'poppins, sans-serif'}}/>
+          <Tab label="..." {...a11yProps(10)} sx={{fontFamily: 'poppins, sans-serif'}}/>
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -149,6 +152,9 @@ const CurriculumVitae = () => {
         <Curso/>
         </TabPanel>
         <TabPanel value={value} index={9} dir={theme.direction}>
+          <ExcelInformaciónPersonal/>
+        </TabPanel>
+        <TabPanel value={value} index={10} dir={theme.direction}>
           <Formatos/>
         </TabPanel>
       </SwipeableViews>
