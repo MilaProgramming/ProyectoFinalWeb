@@ -31,4 +31,4 @@ Para correr el proyecto [cd nombre-del-proyecto/npm start](https://es.react.dev/
 
 ## Licencia
 
-Este proyecto está autorizado bajo la Licencia MIT; consulte el archivo de [Licencia](Licencia) para mas detalles.
+Este proyecto está autorizado bajo la Licencia MIT; consulte el archivo de [Licencia](LICENSE.txt) para mas detalles.
