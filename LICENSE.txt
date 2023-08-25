@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2021 Achig Steven, Andrango Christian, Calapaqui Genesis, Rivera Camila, Sañay Santiago, Paguay Alex
+Copyright (c) 2023 Achig Steven, Andrango Christian, Calapaqui Genesis, Rivera Camila, Sañay Santiago, Paguay Alex
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
