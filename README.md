@@ -1,7 +1,7 @@
 # PROYECTO FINAL WEB AVANZADA
 Repositorio Achig Steven Andrango Christian Calapaqui Genesis Rivera Camila Sañay Santiago Paguay Alex
 
-# Sistema De Contratación de Docentes (RH)
+# Sistema De Hojas de vida de Docentes (RH)
 Sitema de contrataciones y actualización de datos de docentes de la Universidad de las Fuerzas Armadas ESPE
 
 Sistema para el manejo de contrataciones de docentes, actualizaciones hojas de vida, se manejan diferentes tipos de datos para cada apartado de ingreso, en su mayoria cadenas de caracteres, se hace uso de diferentes Apis para la discriminacion de algunas opciones para el tema de etnias, educación, países, entre otros. El esquema de negocio ha sido tomado de https://portal.compraspublicas.gob.ec/sercop/.
