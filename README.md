@@ -13,8 +13,6 @@ Se requieren los siquientes componentes:
 
 * [Node.Js](https://nodejs.org/en)
 
-* [Firebase](https://console.firebase.google.com/u/0/)
-
 * [React](https://es.react.dev/)
 
 * [Postgres](https://www.postgresql.org/)
