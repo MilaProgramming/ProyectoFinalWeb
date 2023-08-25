@@ -27,6 +27,26 @@ Para la creación del Proyecto [npx create-react-app nombre-del-proyecto](https:
 Para correr el proyecto [cd nombre-del-proyecto/npm start](https://es.react.dev/).
 ```
 
+## Ejecución
+
+Para iniciar el sistema se debe ejecutar en dos terminales distintas una para el frontend y otra para el backend, para instalar las dependencias necesarias el comando: 
+
+```
+npm i --force
+```
+
+Para iniciar el frontend ejecutar el comando:
+
+```
+npm start
+```
+
+Para iniciar el backend ejecutar el comando:
+
+```
+npm run dev
+```
+
 ## Licencia
 
 Este proyecto está autorizado bajo la Licencia MIT; consulte el archivo de [Licencia](LICENSE.txt) para mas detalles.
