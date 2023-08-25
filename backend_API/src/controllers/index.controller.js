@@ -4,8 +4,8 @@ const {Pool} = require('pg');
 const dbConfig = {
     host:'localhost',
     user: 'postgres',
-    password: 'admin',
-    database: 'HOJAS_DE_VIDA',
+    password: '1234',
+    database: 'hojadevida',
     port: 5433
 };
 

@@ -55,6 +55,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
   const day = String(currentDate.getDate()).padStart(2, '0');
+  const [tiempo, setTiempo] = useState(0);
 
   const maxFechaPermitida = `${year}-${month}-${day}`;
   let fechaValida=true;
@@ -66,7 +67,18 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
       setExpLaboral(response.data);
       setIsLoading(false);
 
-      
+      console.log(response.data);
+
+        // Calculate the number of years between fecha_inicio and fecha_fin
+        const expLaboral = response.data[0]; // Assuming you have a single object in the response
+        const fechaInicio = new Date(expLaboral.fecha_inicio);
+        const fechaFin = new Date(expLaboral.fecha_fin);
+
+        const timeDifference = fechaFin - fechaInicio;
+        const yearsDifference = timeDifference / (1000 * 3600 * 24 * 365.25); // Approximate number of milliseconds in a year
+        const roundedYearsDifference = yearsDifference.toFixed(2);
+        setTiempo(roundedYearsDifference);
+        console.log(`Years of experience: ${yearsDifference}`);
     });
     
   }, []);
@@ -117,6 +129,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
     }
 
   }
+
   const validarFecha = () => {
     if(body.fecha_inicio>maxFechaPermitida || body.fecha_inicio<minFechaPermitida || body.fecha_fin>maxFechaPermitida || body.fecha_fin<minFechaPermitida || body.fecha_inicio===''||body.fecha_fin===''||body.fecha_inicio>body.fecha_fin){
       fechaValida=false;
@@ -275,7 +288,7 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
                 max: maxFechaPermitida,
               }}
               onChange={inputChange}
-            />
+            />  
             <TextField
               style={{ paddingBottom: "15px",marginTop:5 }}
               name='fecha_fin'
@@ -292,6 +305,17 @@ const SpecialCapability = ({ user, countries, roles, tipo_doc }) => {
               onChange={inputChange}
             />
             <div style={{ margin: '16px' }} /> 
+
+              <TextField
+                name='tiempo'
+                label="Tiempo de trabajo"
+                variant="outlined"
+                fullWidth
+                inputProps={{ maxLength: 50 }}
+                margin="normal"
+                defaultValue={tiempo}
+                onChange={inputChange}
+                style={{ width: '90%' }} />
             </Grid>
         <Box
         display="flex"
