@@ -1,0 +1,158 @@
+CREATE TABLE public.capacidad_especial (
+    id_capacidad integer NOT NULL,
+    doc_id_docente character varying(10),
+    tipo_capacidad character varying(50),
+    porcentaje integer,
+    numero_carnet character varying(15)
+);
+
+
+
+CREATE TABLE public.contacto_emergencia (
+    id_contacto integer NOT NULL,
+    id_docente character varying(10),
+    nombres character varying(50),
+    apellidos character varying(50),
+    tipo_documento character varying(10),
+    numero_documento character varying(10),
+    parentesco character varying(20),
+    provincia character varying(30),
+    canton character varying(30),
+    parroquia character varying(30),
+    calle_principal character varying(20),
+    numero_casa character varying(5),
+    numero_referencia character varying(20),
+    telefono_domicilio character varying(10),
+    telefono_celular character varying(10)
+);
+
+
+CREATE TABLE public.curso (
+    id_curso integer NOT NULL,
+    id_docente character varying(10),
+    nombre_curso character varying(150),
+    institucion character varying(50),
+    pais character varying(30),
+    anio integer,
+    fecha_inicial date,
+    fecha_final date,
+    tipo_certificado character varying(50),
+    horas integer
+);
+
+
+
+CREATE TABLE public.docente (
+    id_docente character varying(10) NOT NULL,
+    tipo_documento character varying(10),
+    numero_documento character varying(10),
+    genero character varying(10),
+    estado_civil character varying(15),
+    nacionalidad character varying(20),
+    etnia character varying(20),
+    fotografia character varying(200),
+    archivo character varying(100),
+    nombre character varying(50),
+    apellido character varying(50),
+    ciudad_residencia character varying(30),
+    provincia character varying(30),
+    direccion character varying(100),
+    correo_electronico character varying(50),
+    correo_alterno character varying(50),
+    tipo_sangre character varying(5),
+    numero_telefono character varying(10),
+    fecha_nacimiento date,
+    enfermedad_catastrofica boolean,
+    capacidad_especial boolean
+);
+
+
+CREATE TABLE public.educacion (
+    id_educacion integer NOT NULL,
+    id_docente character varying(10),
+    institucion character varying(50),
+    titulo character varying(50),
+    nivel character varying(20),
+    numero_senescyt character varying(20),
+    campo_estudio character varying(30),
+    fecha_inicio date,
+    fecha_graduacion date,
+    fecha_registro date,
+    pais character varying(30),
+    anios_estudio character varying(20)
+);
+
+
+CREATE TABLE public.enfermedad_catastrofica (
+    id_enfermedad integer NOT NULL,
+    id_docente character varying(10),
+    tipo_enfermedad character varying(30)
+);
+
+
+CREATE TABLE public.experiencia_laboral (
+    id_exp_lab integer NOT NULL,
+    id_docente character varying(10),
+    empresa character varying(30),
+    unidad_empresa character varying(30),
+    modalidad_contratacion character varying(50),
+    motivo_salida character varying(30),
+    pais character varying(30),
+    tipo_institucion character varying(30),
+    puesto character varying(50),
+    descripcion character varying(200),
+    fecha_inicio date,
+    fecha_fin date,
+    provincia character varying(30)
+);
+
+
+
+CREATE TABLE public.idioma (
+    id_idioma integer NOT NULL,
+    id_docente character varying(10),
+    nombre character varying(50),
+    porcentaje_hablado integer,
+    porcentaje_escrito integer,
+    porcentaje_compresion integer
+);
+
+
+CREATE TABLE public.informacion_bancaria (
+    id_inf_bancaria integer NOT NULL,
+    id_docente character varying(10),
+    tipo_institucion character varying(30),
+    nombre_institucion character varying(30),
+    tipo_cuenta character varying(10),
+    numero_cuenta character varying(15)
+);
+
+
+
+CREATE TABLE public.publicacion (
+    id_publicacion integer NOT NULL,
+    id_docente character varying(10),
+    autores character varying(100),
+    publicador character varying(50),
+    tipo_participacion character varying(30),
+    idioma character varying(20),
+    estado_publicacion character varying(30),
+    numero_volumen character varying(20),
+    revision_pares boolean,
+    fecha date,
+    titulo character varying(50),
+    tipo character varying(50),
+    issn character varying(20),
+    impacto character varying(50)
+);
+
+
+CREATE TABLE public.usuarios (
+    id character varying(10) NOT NULL,
+    nombre character varying(100) NOT NULL,
+    apellido character varying(100) NOT NULL,
+    tipo character varying(10) NOT NULL,
+    correo character varying(100) NOT NULL,
+    contrasena character varying(100) NOT NULL,
+    fecha_registro timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

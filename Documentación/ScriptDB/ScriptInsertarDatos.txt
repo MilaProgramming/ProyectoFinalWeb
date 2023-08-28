@@ -1,0 +1,41 @@
+INSERT INTO public.capacidad_especial (id_capacidad, doc_id_docente, tipo_capacidad, porcentaje, numero_carnet) VALUES (1, '1234567890', 'Visual', 80, 'V12345');
+INSERT INTO public.capacidad_especial (id_capacidad, doc_id_docente, tipo_capacidad, porcentaje, numero_carnet) VALUES (2, '0987654321', 'Auditiva', 60, 'A67890');
+
+
+INSERT INTO public.contacto_emergencia (id_contacto, id_docente, nombres, apellidos, tipo_documento, numero_documento, parentesco, provincia, canton, parroquia, calle_principal, numero_casa, numero_referencia, telefono_domicilio, telefono_celular) VALUES (1, '1234567890', 'Juan', 'Perez', 'Cédula', '1234567890', 'Padre', 'Pichincha', 'Quito', 'La Floresta', 'Av. Amazonas', '1234', 'Referencia 1', '022123456', '0987654321');
+INSERT INTO public.contacto_emergencia (id_contacto, id_docente, nombres, apellidos, tipo_documento, numero_documento, parentesco, provincia, canton, parroquia, calle_principal, numero_casa, numero_referencia, telefono_domicilio, telefono_celular) VALUES (2, '0987654321', 'María', 'González', 'Cédula', '0987654321', 'Madre', 'Guayas', 'Guayaquil', 'Samborondón', 'Av. Samborondón', '5678', 'Referencia 2', '042987654', '0998765432');
+
+
+INSERT INTO public.curso (id_curso, id_docente, nombre_curso, institucion, pais, anio, fecha_inicial, fecha_final, tipo_certificado, horas) VALUES (1, '1234567890', 'Programación en Python', 'Universidad Central del Ecuador', 'Ecuador', 2020, '2020-05-01', '2020-06-30', 'Certificado', 40);
+INSERT INTO public.curso (id_curso, id_docente, nombre_curso, institucion, pais, anio, fecha_inicial, fecha_final, tipo_certificado, horas) VALUES (2, '1234567890', 'Gestión de Proyectos', 'Escuela Politécnica del Litoral', 'Ecuador', 2019, '2019-09-15', '2019-11-30', 'Diploma', 60);
+
+
+INSERT INTO public.docente (id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial) VALUES ('1234567890', 'Cédula', '1234567890', 'Masculino', 'Casado', 'Ecuatoriana', 'Mestizo', 'image-1690429544207.descargar.jpeg', NULL, 'Juan', 'Perez', 'Quito', 'Pichincha', 'Av. Amazonas', 'juan.perez@example.com', 'jperez@example.com', 'A+', '0991234567', '1980-03-15', true, false);
+INSERT INTO public.docente (id_docente, tipo_documento, numero_documento, genero, estado_civil, nacionalidad, etnia, fotografia, archivo, nombre, apellido, ciudad_residencia, provincia, direccion, correo_electronico, correo_alterno, tipo_sangre, numero_telefono, fecha_nacimiento, enfermedad_catastrofica, capacidad_especial) VALUES ('0987654321', 'Cédula', '0987654321', 'Femenino', 'Soltero', 'Ecuatoriana', 'Afroecuatoriana', 'image-1690433404464.logo.png', 'archivo2.pdf', 'María', 'González', 'Guayaquil', 'Guayas', 'Av. Samborondón', 'maria.gonzalez@example.com', 'mgonzalez@example.com', 'O-', '0987654321', '1985-08-22', false, true);
+
+
+
+INSERT INTO public.educacion (id_educacion, id_docente, institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio) VALUES (1, '1234567890', 'Universidad Central del Ecuador', 'Ingeniería en Sistemas', 'Universitario', '1234567890', 'Tecnología de la Información', '2010-09-01', '2015-07-15', '2015-08-01', 'Ecuador', '5 años');
+INSERT INTO public.educacion (id_educacion, id_docente, institucion, titulo, nivel, numero_senescyt, campo_estudio, fecha_inicio, fecha_graduacion, fecha_registro, pais, anios_estudio) VALUES (2, '0987654321', 'Escuela Politécnica del Litoral', 'MBA - Maestría en Administración de Empresas', 'Posgrado', '0987654321', 'Administración de Empresas', '2015-04-01', '2017-06-30', '2017-07-15', 'Ecuador', '2 años');
+
+
+
+INSERT INTO public.enfermedad_catastrofica (id_enfermedad, id_docente, tipo_enfermedad) VALUES (2, '0987654321', 'Enfermedad Cardíaca');
+INSERT INTO public.enfermedad_catastrofica (id_enfermedad, id_docente, tipo_enfermedad) VALUES (1, '1234567890', 'Hipertensión1');
+INSERT INTO public.enfermedad_catastrofica (id_enfermedad, id_docente, tipo_enfermedad) VALUES (3, '1234567890', 'Cáncer');
+
+
+INSERT INTO public.experiencia_laboral (id_exp_lab, id_docente, empresa, unidad_empresa, modalidad_contratacion, motivo_salida, pais, tipo_institucion, puesto, descripcion, fecha_inicio, fecha_fin, provincia) VALUES (1, '1234567890', 'ABC Tech Solutions', 'Departamento de Desarrollo', 'Contrato Indefinido', 'Cambio de Trabajo', 'Ecuador', 'Privada', 'Ingeniero de Software', 'Desarrollo y mantenimiento de aplicaciones web', '2015-08-01', '2020-06-30', 'Pichincha');
+INSERT INTO public.experiencia_laboral (id_exp_lab, id_docente, empresa, unidad_empresa, modalidad_contratacion, motivo_salida, pais, tipo_institucion, puesto, descripcion, fecha_inicio, fecha_fin, provincia) VALUES (2, '0987654321', 'XYZ Consulting', 'Área de Proyectos', 'Contrato a Plazo Fijo', 'Finalización de Proyecto', 'Ecuador', 'Privada', 'Gerente de Proyectos', 'Gestión de proyectos de desarrollo de software', '2010-05-01', '2015-07-15', 'Guayas');
+
+
+INSERT INTO public.idioma (id_idioma, id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion) VALUES (1, '1234567890', 'Inglés', 90, 85, 80);
+INSERT INTO public.idioma (id_idioma, id_docente, nombre, porcentaje_hablado, porcentaje_escrito, porcentaje_compresion) VALUES (2, '0987654321', 'Francés', 70, 65, 60);
+
+
+INSERT INTO public.informacion_bancaria (id_inf_bancaria, id_docente, tipo_institucion, nombre_institucion, tipo_cuenta, numero_cuenta) VALUES (1, '1234567890', 'Banco ABC', 'Cuenta Corriente', 'Corriente', '1234567890');
+INSERT INTO public.informacion_bancaria (id_inf_bancaria, id_docente, tipo_institucion, nombre_institucion, tipo_cuenta, numero_cuenta) VALUES (2, '0987654321', 'Banco XYZ', 'Cuenta de Ahorros', 'Ahorros', '0987654321');
+
+
+INSERT INTO public.publicacion (id_publicacion, id_docente, autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto) VALUES (1, '1234567890', 'Juan Pérez', 'Editorial ABC', 'Autor Principal', 'Español', 'Publicado', 'Volumen 1', true, '2020-12-15', 'Introducción a la Programación en Python', 'Libro', 'ISBN123456', 'Medio');
+INSERT INTO public.publicacion (id_publicacion, id_docente, autores, publicador, tipo_participacion, idioma, estado_publicacion, numero_volumen, revision_pares, fecha, titulo, tipo, issn, impacto) VALUES (2, '0987654321', 'María González, Juan Pérez', 'Revista XYZ', 'Coautor', 'Inglés', 'En Revisión', 'Volumen 2', false, '2022-03-30', 'Gestión de Proyectos en Desarrollo de Software', 'Artículo', 'ISSN987654', 'Alto');
